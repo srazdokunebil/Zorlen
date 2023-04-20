@@ -600,6 +600,7 @@ LOCALIZATION_ZORLEN = {}
 	LOCALIZATION_ZORLEN["Resurrection"] = "Resurrection"
 	LOCALIZATION_ZORLEN["ShackleUndead"] = "Shackle Undead"
 	LOCALIZATION_ZORLEN["ShadowProtection"] = "Shadow Protection"
+	LOCALIZATION_ZORLEN["ShadowVulnerability"] = "Shadow Vulnerability"
 	LOCALIZATION_ZORLEN["ShadowWordPain"] = "Shadow Word: Pain"
 	LOCALIZATION_ZORLEN["Shadowform"] = "Shadowform"
 	LOCALIZATION_ZORLEN["Shadowguard"] = "Shadowguard"

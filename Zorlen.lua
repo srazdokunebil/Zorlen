@@ -680,6 +680,7 @@ function Zorlen_OnLoad()
 	ZorlenFrame:RegisterEvent("SPELLCAST_FAILED")
 	ZorlenFrame:RegisterEvent("CHAT_MSG_SPELL_SELF_DAMAGE")
 	ZorlenFrame:RegisterEvent("CHAT_MSG_SPELL_FAILED_LOCALPLAYER")
+	ZorlenFrame:RegisterEvent("CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE")
 	ZorlenFrame:RegisterEvent("CHAT_MSG_COMBAT_SELF_MISSES")
 	ZorlenFrame:RegisterEvent("UI_ERROR_MESSAGE")
 	ZorlenFrame:RegisterEvent("BAG_UPDATE")
@@ -1532,6 +1533,7 @@ function Zorlen_OnEvent(event, arg1, arg2, arg3)
 			--------------------------------------------------------------------------------------------------------
 	elseif (event == "CHAT_MSG_SPELL_SELF_DAMAGE") then
 			---------------------------
+			--print('CHAT_MSG_SPELL_SELF_DAMAGE')
 			local hit = nil
 			local immune = nil
 			for index,value in LOCALIZATION_ZORLEN.HitsOrCritsArray do
@@ -1585,7 +1587,16 @@ function Zorlen_OnEvent(event, arg1, arg2, arg3)
 			if Zorlen_isCurrentClassWarrior then
 				Zorlen_Warrior_OnEvent_CHAT_MSG_SPELL_FAILED_LOCALPLAYER(arg1, arg2, arg3)
 			end
-			
+
+			--------------------------------------------------------------------------------------------------------
+	elseif (event == "CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE") then
+			---------------------------
+
+			--print('CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE')
+			if Zorlen_isCurrentClassPriest then
+				Zorlen_Priest_OnEvent_CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE(arg1, arg2, arg3, Zorlen_LastCastingSpellTargetName)
+			end
+
 			--------------------------------------------------------------------------------------------------------
 	elseif (event == ("SPELLCAST_START")) then
 			---------------------------

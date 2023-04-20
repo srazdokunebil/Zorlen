@@ -147,6 +147,10 @@ function isShadowVulnerabilityStacks(unit, stacks)
 	end
 end
 
+function isDIE()
+	return Zorlen_checkBuffByName("Chromatic Infusion", "player")
+end
+
 function isZHC()
     return Zorlen_checkBuffByName("Unstable Power", "player")
 end
@@ -219,11 +223,6 @@ end
 --------   All functions below this line will only load if you are playing the corresponding class   --------
 if not Zorlen_isCurrentClassPriest then return end
 
-
-
-
-
-
 function Zorlen_Priest_SpellTimerSet()
 	local Number = 0
 	local TargetName = Zorlen_CastingSpellTargetName
@@ -241,6 +240,46 @@ function Zorlen_Priest_SpellTimerSet()
 		Zorlen_SetTimer(Number, SpellName, TargetName, "InternalZorlenSpellTimers", nil, nil, 1)
 	end
 end
+
+function Zorlen_Priest_OnEvent_CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE(arg1, arg2, arg3, TargetName, failed, immune, hit)
+
+	if string.find(arg1, 'afflicted') then
+
+		--print(Zorlen_gsub(arg1, "afflicted", "%(%.%+%)"))
+		--print(string.find(arg1, 'afflicted'))
+		--text = string.gsub(arg1, "(*.)", "a")
+		--print(text)
+	end
+
+	if not immune and not failed and hit and string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.HitsOrCritsArray[hit], "%(%.%+%)", LOCALIZATION_ZORLEN.ShadowVulnerability, "%(%.%*%)", TargetName)) then
+		Zorlen_SetTimer(1, "CheckForWingClipDebuffWindow_timer", nil, "InternalZorlenMiscTimer", 2, Zorlen_CheckForWingClipDebuffWindow_timer_function)
+		print('you hit the thing');
+	elseif not immune then
+		return
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.WingClip, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.WingClip.."!")
+		Zorlen_WasWingClipSpellCastImmune = 1
+		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.WingClip, "immune", "InternalZorlenMiscTimer")
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.ConcussiveShot, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.ConcussiveShot.."!")
+		Zorlen_WasConcussiveShotSpellCastImmune = 1
+		Zorlen_SetTimer(10, LOCALIZATION_ZORLEN.ConcussiveShot, "immune", "InternalZorlenMiscTimer")
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.ViperSting, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.ViperSting.."!")
+		Zorlen_WasViperStingSpellCastImmune = 1
+		Zorlen_SetTimer(10, LOCALIZATION_ZORLEN.ViperSting, "immune", "InternalZorlenMiscTimer")
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.SerpentSting, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.SerpentSting.."!")
+		Zorlen_SerpentStingSpellCastImmune = 1
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.ScorpidSting, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.ScorpidSting.."!")
+		Zorlen_ScorpidStingSpellCastImmune = 1
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.HuntersMark, "%(%.%*%)", TargetName)) then
+		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.HuntersMark.."!")
+		Zorlen_HuntersMarkSpellCastImmune = 1
+	end
+end
+
 
 
 
