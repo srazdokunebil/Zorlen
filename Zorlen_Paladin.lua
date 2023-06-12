@@ -305,6 +305,11 @@ function isBlessingActive()
 	return false
 end
 
+function isJudgementOfTheCrusaderActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfTheCrusader
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
 --Added by Nosrac
 function isSealOfCommandActive()
 	local SpellName = LOCALIZATION_ZORLEN.SealOfCommand
@@ -447,6 +452,21 @@ function castFireResistanceAura(test)
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 castFiRA = castFireResistanceAura
+
+--Added by Dispatch
+--AnySeal will prevent casting a seal if any other seal is active
+function castSealOfCommand(AnySeal, test)
+	if AnySeal and isSealActive() then
+		return false
+	end
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.SealOfCommand
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	Zorlen_CastCommonRegisteredSpell(z)
+end
+castSotC = castSealOfCommand
 
 --Added by charroux
 --AnySeal will prevent casting a seal if any other seal is active

@@ -540,6 +540,9 @@ LOCALIZATION_ZORLEN = {}
 	LOCALIZATION_ZORLEN["HolyShock"] = "Holy Shock"
 	LOCALIZATION_ZORLEN["HolyWrath"] = "Holy Wrath"
 	LOCALIZATION_ZORLEN["Judgement"] = "Judgement"
+
+	LOCALIZATION_ZORLEN["JudgementOfTheCrusader"] = "Judgement of the Crusader"
+
 	LOCALIZATION_ZORLEN["LayOnHands"] = "Lay on Hands"
 	LOCALIZATION_ZORLEN["Purify"] = "Purify"
 	LOCALIZATION_ZORLEN["Redemption"] = "Redemption"
