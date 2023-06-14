@@ -2854,6 +2854,7 @@ function Zorlen_CancelSelfBuff(buff, SpellName)
 	local i = Zorlen_GiveSelfBuffIndex(buff, SpellName)
 	if i then
 		CancelPlayerBuff(i)
+		vr:LogAction("Removing " .. SpellName .. " aura.")
 		return true
 	end
 	return false
@@ -5726,10 +5727,13 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 			else
 				if InfoArray.SpellButton then
 					UseAction(InfoArray.SpellButton)
+					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
+					vr:LogAction("Casting InfoArray.Rank")
 				else
 					CastSpell(SpellID, 0)
+					vr:LogAction("Casting Regular")
 				end
 			end
 		end

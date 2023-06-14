@@ -550,6 +550,36 @@ function castJudgement(test)
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
+--Added by Dispatch
+function castCrusaderStrike()
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.CrusaderStrike
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+function isCrusaderStrikeStacks(stacks)
+	if not stacks ~= nil then
+		stacks = 5;
+	end
+
+	s = Zorlen_GetDebuffStack("Spell_holy_holysmite", unit)
+	if s <= stacks then
+		print(UnitName('target') .. " has " .. s .. " stacks of Crusader Strike");
+		return true
+	else
+		return false
+	end
+end
+
+--Added by Dispatch
+function castHolyStrike(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HolyStrike
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
 --Added by charroux
 function castDivineProtection(test)
 	local z = {}

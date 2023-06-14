@@ -518,6 +518,9 @@ LOCALIZATION_ZORLEN = {}
 	LOCALIZATION_ZORLEN["Cleanse"] = "Cleanse"
 	LOCALIZATION_ZORLEN["ConcentrationAura"] = "Concentration Aura"
 	LOCALIZATION_ZORLEN["Consecration"] = "Consecration"
+
+	LOCALIZATION_ZORLEN["CrusaderStrike"] = "Crusader Strike"
+
 	LOCALIZATION_ZORLEN["DevotionAura"] = "Devotion Aura"
 	LOCALIZATION_ZORLEN["DivineFavor"] = "Divine Favor"
 	LOCALIZATION_ZORLEN["DivineIntervention"] = "Divine Intervention"
@@ -538,6 +541,7 @@ LOCALIZATION_ZORLEN = {}
 	LOCALIZATION_ZORLEN["HolyLight"] = "Holy Light"
 	LOCALIZATION_ZORLEN["HolyShield"] = "Holy Shield"
 	LOCALIZATION_ZORLEN["HolyShock"] = "Holy Shock"
+	LOCALIZATION_ZORLEN["HolyStrike"] = "Holy Strike"
 	LOCALIZATION_ZORLEN["HolyWrath"] = "Holy Wrath"
 	LOCALIZATION_ZORLEN["Judgement"] = "Judgement"
 
