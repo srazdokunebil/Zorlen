@@ -384,7 +384,18 @@ function isRighteousFuryActive()
 end
 
 
-
+--Added by Dispatch
+function castBlessingOfMight(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfMight
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castBOM = castBlessingOfMight
 
 
 --Added by charroux
@@ -416,9 +427,31 @@ function castConcentrationAura(test)
 	z.SpellName = LOCALIZATION_ZORLEN.ConcentrationAura
 	z.BuffName = z.SpellName
 	z.EnemyTargetNotNeeded = 1
-	return Zorlen_CastCommonRegisteredSpell()
+	return Zorlen_CastCommonRegisteredSpell(z)
 end
 castCA = castConcentrationAura
+
+--Added by Dispatch
+function castHammerOfWrath(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HammerOfWrath
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+castHOW = castHammerOfWrath
+
+--Added by Dispatch
+function castHolyWrath(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HolyWrath
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+castHW = castHolyWrath
 
 --Added by charroux
 function castShadowResistanceAura(test)
@@ -558,14 +591,19 @@ function castCrusaderStrike()
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
-function isCrusaderStrikeStacks(stacks)
-	if not stacks ~= nil then
-		stacks = 5;
+function isCrusaderStrikeStacks(unit, stacks)
+	--if stacks ~= nil then
+	--	print('stacks is not initialized properly');
+	--	stacks = 5;
+	--end
+
+	if not UnitExists(unit) then
+		return false;
 	end
 
-	s = Zorlen_GetDebuffStack("Spell_holy_holysmite", unit)
-	if s <= stacks then
-		print(UnitName('target') .. " has " .. s .. " stacks of Crusader Strike");
+	s = Zorlen_GetDebuffStack("Spell_Holy_CrusaderStrike", unit)
+	if s < stacks then
+		--print(UnitName('target') .. " has " .. s .. " stacks of Crusader Strike");
 		return true
 	else
 		return false

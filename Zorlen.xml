@@ -4,12 +4,12 @@
 
 <!-- Localization files must always be listed first in the XML file. -->
 	<Script file="Localization_Zorlen_EN.lua"/>
-	<Script file="Localization_Zorlen_FR.lua"/>
-	<Script file="Localization_Zorlen_DE.lua"/>
-	<Script file="Localization_Zorlen_KR.lua"/>
-	<Script file="Localization_Zorlen_CN.lua"/>
-	<Script file="Localization_Zorlen_TW.lua"/>
-	<Script file="Localization_Zorlen_RU.lua"/>
+<!--	<Script file="Localization_Zorlen_FR.lua"/>-->
+<!--	<Script file="Localization_Zorlen_DE.lua"/>-->
+<!--	<Script file="Localization_Zorlen_KR.lua"/>-->
+<!--	<Script file="Localization_Zorlen_CN.lua"/>-->
+<!--	<Script file="Localization_Zorlen_TW.lua"/>-->
+<!--	<Script file="Localization_Zorlen_RU.lua"/>-->
 	
 	<Script file="Zorlen.lua"/>
 	<Script file="Zorlen_ImmuneMobList.lua"/>

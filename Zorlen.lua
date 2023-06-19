@@ -25,7 +25,6 @@ local Localization_FBN = 687
 Zorlen_MaxPlayerLevel = 60
 Zorlen_MaxDebuffSlots = 16
 
-
 -- Make sure that all the build numbers listed above are always the same as they are listed inside of the corresponding files
 
 
@@ -524,6 +523,8 @@ Zorlen_Timer.TimerTimer = {}
 Zorlen_Timer.RunFunction = {}
 Zorlen_LocalizedPlayerClass, Zorlen_PlayerClass = UnitClass("player")
 Zorlen_LocalizedPlayerRace, Zorlen_PlayerRace = UnitRace("player")
+
+--Zorlen_AutoSelfCast = GetCVar("autoSelfCast");
 
 local Zorlen_EatItemName = ""
 local Zorlen_EatBagID = nil
@@ -1446,6 +1447,7 @@ function Zorlen_OnEvent(event, arg1, arg2, arg3)
 			
 			Zorlen_VariablesLoaded = true
 			Zorlen_CheckVariables()
+
 			
 			--------------------------------------------------------------------------------------------------------
 	elseif (event == "START_AUTOREPEAT_SPELL") then
@@ -5726,14 +5728,90 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 				SpellStopCasting()
 			else
 				if InfoArray.SpellButton then
+
 					UseAction(InfoArray.SpellButton)
 					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
+
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
-					vr:LogAction("Casting InfoArray.Rank")
+					--vr:LogAction("Casting InfoArray.Rank")
+					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+
 				else
+
 					CastSpell(SpellID, 0)
-					vr:LogAction("Casting Regular")
+					--vr:LogAction("Casting Regular")
+					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+
+				end
+			end
+		end
+		return true
+	elseif STOP and not InfoArray.Test then
+		SpellStopCasting()
+	end
+	return false
+end
+
+function Zorlen_CastCommonRegisteredSpellSelfCast(InfoArray ,ab,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w)
+	if type(InfoArray) ~= "table" then
+		if not b then
+			return false
+		end
+		local z = {}
+		z.Rank = InfoArray
+		z.SelfCast = ab
+		z.SpellName = b
+		z.DebuffName = c
+		z.DebuffImmune = d
+		z.ManaNeeded = e
+		z.SelfHealthGreaterThanPercent = f
+		z.EnemyTargetNotNeeded = g
+		z.BuffName = h
+		z.TargetThatUsesManaNeeded = i
+		z.DebuffCheckIncluded = j
+		z.DebuffCheck = k
+		z.BuffCheckIncluded = l
+		z.BuffCheck = m
+		z.SpellCheckNotNeeded = n
+		z.BuffUnit = o
+		z.DoDebuffIncluded = p
+		z.DoDebuff = q
+		z.DoBuffIncluded = r
+		z.DoBuff = s
+		z.StopCasting = t
+		z.NoRangeCheck = u
+		z.Test = v
+		z.DebuffTimer = w
+		InfoArray = z
+	elseif not InfoArray.SpellName then
+		return false
+	end
+	if InfoArray.Rank then
+		InfoArray.SpellButton = Zorlen_Button[InfoArray.SpellName.."."..InfoArray.Rank]
+	else
+		InfoArray.SpellButton = Zorlen_Button[InfoArray.SpellName]
+	end
+	local SpellID, STOP = Zorlen_CheckIfCommonRegisteredSpellCastable(InfoArray)
+	if SpellID then
+		if not InfoArray.Test then
+			if InfoArray.StopCasting and Zorlen_isCasting() then
+				SpellStopCasting()
+			else
+				if InfoArray.SpellButton then
+					SetCVar("autoSelfCast", 1)
+					UseAction(InfoArray.SpellButton)
+					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+					SetCVar("autoSelfCast", 0)
+				--elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
+				--	CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
+				--	--vr:LogAction("Casting InfoArray.Rank")
+				--	vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+				--else
+				--	CastSpell(SpellID, 0)
+				--	--vr:LogAction("Casting Regular")
+				--	vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
 				end
 			end
 		end
