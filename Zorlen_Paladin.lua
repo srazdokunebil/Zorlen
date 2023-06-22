@@ -584,7 +584,7 @@ function castJudgement(test)
 end
 
 --Added by Dispatch
-function castCrusaderStrike()
+function castCrusaderStrike(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.CrusaderStrike
@@ -601,7 +601,7 @@ function isCrusaderStrikeStacks(unit, stacks)
 		return false;
 	end
 
-	s = Zorlen_GetDebuffStack("Spell_Holy_CrusaderStrike", unit)
+	local s = Zorlen_GetDebuffStack("Spell_Holy_CrusaderStrike", unit)
 	if s < stacks then
 		--print(UnitName('target') .. " has " .. s .. " stacks of Crusader Strike");
 		return true

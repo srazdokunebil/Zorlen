@@ -2856,7 +2856,7 @@ function Zorlen_CancelSelfBuff(buff, SpellName)
 	local i = Zorlen_GiveSelfBuffIndex(buff, SpellName)
 	if i then
 		CancelPlayerBuff(i)
-		vr:LogAction("Removing " .. SpellName .. " aura.")
+		vr.log.Action("Removing " .. SpellName .. " aura.")
 		return true
 	end
 	return false
@@ -5730,19 +5730,19 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 				if InfoArray.SpellButton then
 
 					UseAction(InfoArray.SpellButton)
-					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
 
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
 					--vr:LogAction("Casting InfoArray.Rank")
-					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
 
 				else
 
 					CastSpell(SpellID, 0)
 					--vr:LogAction("Casting Regular")
-					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
 
 				end
 			end
@@ -5802,7 +5802,7 @@ function Zorlen_CastCommonRegisteredSpellSelfCast(InfoArray ,ab,b,c,d,e,f,g,h,i,
 				if InfoArray.SpellButton then
 					SetCVar("autoSelfCast", 1)
 					UseAction(InfoArray.SpellButton)
-					vr:LogAction("Casting " .. InfoArray.SpellName .. ".")
+					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
 					SetCVar("autoSelfCast", 0)
 				--elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 				--	CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
