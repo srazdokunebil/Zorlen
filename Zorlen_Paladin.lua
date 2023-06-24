@@ -443,6 +443,17 @@ end
 castHOW = castHammerOfWrath
 
 --Added by Dispatch
+function castHolyShock(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HolyShock
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+castHW = castHolyWrath
+
+--Added by Dispatch
 function castHolyWrath(test)
 	local z = {}
 	z.Test = test
