@@ -652,33 +652,20 @@ function castCrusaderStrike(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.CrusaderStrike
+	--CastSpellByName("Crusader Strike");
+	--vr.api.LastSpellCast = GetTime()
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
-function isCrusaderStrikeStacks(unit, stacks)
-	--if stacks ~= nil then
-	--	print('stacks is not initialized properly');
-	--	stacks = 5;
-	--end
 
-	if not UnitExists(unit) then
-		return false;
-	end
-
-	local s = Zorlen_GetDebuffStack("Spell_Holy_CrusaderStrike", unit)
-	if s < stacks then
-		--print(UnitName('target') .. " has " .. s .. " stacks of Crusader Strike");
-		return true
-	else
-		return false
-	end
-end
 
 --Added by Dispatch
 function castHolyStrike(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.HolyStrike
+	--CastSpellByName("Holy Strike");
+	--vr.api.LastSpellCast = GetTime()
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
