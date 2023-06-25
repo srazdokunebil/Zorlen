@@ -305,8 +305,15 @@ function isBlessingActive()
 	return false
 end
 
+--Added by Dispatch
 function isJudgementOfTheCrusaderActive(unit, dispelable)
 	local SpellName = LOCALIZATION_ZORLEN.JudgementOfTheCrusader
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
+--Added by Dispatch
+function isJudgementOfWisdomActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfWisdom
 	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
 end
 
@@ -644,6 +651,7 @@ function castJudgement(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.Judgement
+	vr.pal.lastJudgment = GetTime();
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
