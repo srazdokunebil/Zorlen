@@ -365,6 +365,12 @@ function isHolyShieldActive()
 	return Zorlen_checkBuffByName(SpellName)
 end
 
+--Added by Dispatch
+function isDivineFavorActive()
+	local SpellName = LOCALIZATION_ZORLEN.DivineFavor
+	return Zorlen_checkBuffByName(SpellName)
+end
+
 --Added by Nosrac
 function isDivineProtectionActive()
 	local SpellName = LOCALIZATION_ZORLEN.DivineProtection
@@ -382,6 +388,31 @@ function isRighteousFuryActive()
 	local SpellName = LOCALIZATION_ZORLEN.RighteousFury
 	return Zorlen_checkBuffByName(SpellName)
 end
+
+--Added by Dispatch
+function isDivineFavorReady()
+	if vr.api.IsSpellReady("Divine Favor") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function isExorcismReady()
+	if vr.api.IsSpellReady("Exorcism") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function isHolyShockReady()
+	if vr.api.IsSpellReady("Holy Shock") then
+		return true;
+	end
+	return false;
+end
+
 
 
 --Added by Dispatch
@@ -432,6 +463,28 @@ end
 castCA = castConcentrationAura
 
 --Added by Dispatch
+function castDivineFavor(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.DivineFavor
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+castDF = castDivineFavor
+
+--Added by Dispatch
+function castExorcism(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Exorcism
+	z.BuffName = z.SpellName
+	z.EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+castEX = castExorcism
+
+--Added by Dispatch
 function castHammerOfWrath(test)
 	local z = {}
 	z.Test = test
@@ -451,7 +504,7 @@ function castHolyShock(test)
 	z.EnemyTargetNotNeeded = 1
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
-castHW = castHolyWrath
+castHS = castHolyShock
 
 --Added by Dispatch
 function castHolyWrath(test)

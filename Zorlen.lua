@@ -5731,18 +5731,21 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 
 					UseAction(InfoArray.SpellButton)
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					vr.api.LastSpellCast = GetTime()
 
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
 					--vr:LogAction("Casting InfoArray.Rank")
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					vr.api.LastSpellCast = GetTime()
 
 				else
 
 					CastSpell(SpellID, 0)
 					--vr:LogAction("Casting Regular")
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					vr.api.LastSpellCast = GetTime()
 
 				end
 			end
@@ -5803,6 +5806,7 @@ function Zorlen_CastCommonRegisteredSpellSelfCast(InfoArray ,ab,b,c,d,e,f,g,h,i,
 					SetCVar("autoSelfCast", 1)
 					UseAction(InfoArray.SpellButton)
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					vr.api.LastSpellCast = GetTime()
 					SetCVar("autoSelfCast", 0)
 				--elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 				--	CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
