@@ -317,6 +317,12 @@ function isJudgementOfWisdomActive(unit, dispelable)
 	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
 end
 
+--Added by Dispatch
+function isJudgementOfLightActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfLight
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
 --Added by Nosrac
 function isSealOfCommandActive()
 	local SpellName = LOCALIZATION_ZORLEN.SealOfCommand

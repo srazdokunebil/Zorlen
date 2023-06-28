@@ -547,6 +547,7 @@ LOCALIZATION_ZORLEN = {}
 
 	LOCALIZATION_ZORLEN["JudgementOfTheCrusader"] = "Judgement of the Crusader"
 	LOCALIZATION_ZORLEN["JudgementOfWisdom"] = "Judgement of Wisdom"
+	LOCALIZATION_ZORLEN["JudgementOfLight"] = "Judgement of Light"
 
 	LOCALIZATION_ZORLEN["LayOnHands"] = "Lay on Hands"
 	LOCALIZATION_ZORLEN["Purify"] = "Purify"

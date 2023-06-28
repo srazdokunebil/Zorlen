@@ -299,6 +299,24 @@ function isPowerWordFortitudeActive()
 	return Zorlen_checkBuff("Holy_WordFortitude")
 end
 
+--Made By Dispatch
+--Returns true if player has Shadowform active
+function isShadowformActive()
+	local SpellName = LOCALIZATION_ZORLEN.Shadowform
+	return Zorlen_checkBuffByName(SpellName)
+end
+
+--Added by Dispatch
+function castShadowform(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Shadowform
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
 
 function castPsychicScream(SpellRank)
 	local SpellName = LOCALIZATION_ZORLEN.PsychicScream
@@ -318,6 +336,8 @@ function castShadowWordPain(SpellRank, force)
 	end
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName, DebuffName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, DebuffTimer)
 end
+
+
 
 --Added By Devla
 --Casts Holy Fire on Target if its not active already
