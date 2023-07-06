@@ -426,7 +426,35 @@ function isHolyShockReady()
 	return false;
 end
 
+--Added by Dispatch
+function isHammerOfJusticeReady()
+	if vr.api.IsSpellReady("Hammer of Justice") then
+		return true;
+	end
+	return false;
+end
 
+----Added by Dispatch
+--function canCastBlessingOfSacrifice(unit)
+--	local z = {}
+--	z.Test = ""
+--	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfSacrifice
+--	z.BuffName = z.SpellName
+--	z.EnemyTargetNotNeeded = 1
+--	return Zorlen_CanCastCommonRegisteredSpellOnUnit(z, unit)
+--end
+
+--Added by Dispatch
+function castBlessingOfFreedom(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
 
 --Added by Dispatch
 function castBlessingOfMight(test)
@@ -530,6 +558,18 @@ function castHolyWrath(test)
 end
 castHW = castHolyWrath
 
+--Added by Dispatch
+function castRighteousFury(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.RighteousFury
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+
 --Added by charroux
 function castShadowResistanceAura(test)
 	local z = {}
@@ -574,6 +614,7 @@ function castSealOfCommand(AnySeal, test)
 	z.SpellName = LOCALIZATION_ZORLEN.SealOfCommand
 	z.BuffName = z.SpellName
 	z.EnemyTargetNotNeeded = 1
+	vr.pal.lastSealOfCommand = GetTime();
 	Zorlen_CastCommonRegisteredSpell(z)
 end
 castSotC = castSealOfCommand
@@ -671,7 +712,15 @@ function castCrusaderStrike(test)
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 
-
+--Added by Dispatch
+function castHammerOfJustice(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HammerOfJustice
+	--CastSpellByName("Holy Strike");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
 
 --Added by Dispatch
 function castHolyStrike(test)

@@ -5677,12 +5677,6 @@ function Zorlen_ShowButtonToolTips(startslot, stopslot, line, side)
 	end
 end
 
-
-
-
-
-
-
 function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w)
 	if type(InfoArray) ~= "table" then
 		if not b then
@@ -5902,6 +5896,7 @@ function Zorlen_CheckIfCommonRegisteredSpellCastable(InfoArray)
 	end
 	return nil
 end
+
 
 --[[
 
