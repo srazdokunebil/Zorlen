@@ -147,6 +147,10 @@ function isShadowVulnerabilityStacks(unit, stacks)
 	end
 end
 
+function isFearWard()
+	return Zorlen_checkBuffByName("Fear Ward", "player")
+end
+
 function isDIE()
 	return Zorlen_checkBuffByName("Chromatic Infusion", "player")
 end
