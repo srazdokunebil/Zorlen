@@ -3696,7 +3696,7 @@ function Zorlen_GiveGroupUnit(mode, showdebug, notunit, notunitarray, buff, notl
 			Mode = "pets"
 		end
 	end
-	local goto = NumMembers + 2
+	local gotowhatsit = NumMembers + 2
 	Zorlen_debug("Looking for group unit", showdebug)
 	while counter <= NumMembers do
 		if counter == 0 then
@@ -3711,7 +3711,7 @@ function Zorlen_GiveGroupUnit(mode, showdebug, notunit, notunitarray, buff, notl
 					if not unit or h < health then
 						local skip = nil
 						if notunitarray then
-							for i=notunitarraystart,goto do
+							for i=notunitarraystart,gotowhatsit do
 								if not notunitarray[i] then
 									break
 								end
@@ -5731,7 +5731,7 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
 					--vr:LogAction("Casting InfoArray.Rank")
-					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					vr.log.Action("Casting " .. InfoArray.SpellName .. "(Rank " .. InfoArray.Rank .. ").")
 					vr.api.LastSpellCast = GetTime()
 
 				else

@@ -709,6 +709,22 @@ function castCon(SpellRank)
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName, DebuffName, DebuffImmune)
 end
 
+--Added by Dispatch
+function isRaptorUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, "Ability_MeleeDamage") then
+				Ability_Raptor_Strike = i
+			end
+		end
+	end
+	if Ability_Raptor_Strike and IsActionInRange(Ability_Raptor_Strike) == 1 then
+		return true
+	end
+	return false
+end
+
 --Added by Nuckin
 --edited by BigRedBrent
 function castRaptor(SpellRank)
@@ -791,6 +807,11 @@ function castDisengage(SpellRank)
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName)
 end
 
+function castDistracting(SpellRank)
+	local SpellName = LOCALIZATION_ZORLEN.DistractingShot
+	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName)
+end
+
 function castScatter(SpellRank)
 	local SpellName = LOCALIZATION_ZORLEN.ScatterShot
 	if Zorlen_isCrowedControlled() then
@@ -799,12 +820,61 @@ function castScatter(SpellRank)
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName)
 end
 
+--Added by Dispatch
+function isTrueshotUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			--print('S:' .. i .. " / " .. t)
+			if string.find(t, "Ability_Hunter_SteadyShot") then
+				Ability_Hunter_SteadyShot = i
+			end
+		end
+	end
+	if Ability_Hunter_SteadyShot and IsActionInRange(Ability_Hunter_SteadyShot) == 1 then
+		return true
+	end
+	return false
+end
+
+--Added by Dispatch
+function isMultiShotReady()
+	if vr.api.IsSpellReady("Multi Shot") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function isMultiShotUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, "Ability_UpgradeMoonGlaive") then
+				Ability_UpgradeMoonGlaive = i
+			end
+		end
+	end
+	if Ability_UpgradeMoonGlaive and IsActionInRange(Ability_UpgradeMoonGlaive) == 1 then
+		return true
+	end
+	return false
+end
+
 function castMulti(SpellRank)
 	if Zorlen_isMoving() then
 		return false
 	end
 	local SpellName = LOCALIZATION_ZORLEN.MultiShot
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName)
+end
+
+--Added by Dispatch
+function isAimedShotReady()
+	if vr.api.IsSpellReady("Aimed Shot") then
+		return true;
+	end
+	return false;
 end
 
 function castAimed(SpellRank)
@@ -823,6 +893,7 @@ function castMark(SpellRank)
 	local SpellName = LOCALIZATION_ZORLEN.HuntersMark
 	local DebuffName = SpellName
 	local DebuffImmune = Zorlen_HuntersMarkSpellCastImmune
+	--print("Zorlen_HuntersMarkSpellCastImmune:" .. tostring(Zorlen_HuntersMarkSpellCastImmune))
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName, DebuffName, DebuffImmune)
 end
 
@@ -910,6 +981,22 @@ end
 function castRapid()
 	local SpellName = LOCALIZATION_ZORLEN.RapidFire
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName)
+end
+
+--Added by Dispatch
+function isWingClipUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, "Ability_Rogue_Trip") then
+				Ability_WingClip = i
+			end
+		end
+	end
+	if Ability_WingClip and IsActionInRange(Ability_WingClip) == 1 then
+		return true
+	end
+	return false
 end
 
 --Aded by Jayphen

@@ -970,7 +970,12 @@ end
 --Casts Vamperic Embrace on Target if its not active already
 function castVampiricEmbrace(SpellRank)
 	local SpellName = LOCALIZATION_ZORLEN.VampiricEmbrace
+	--local SpellButton = Zorlen_Button[SpellName]
+	--local inRange = IsActionInRange(SpellButton)
 	local DebuffName = SpellName
+	-- if not inRange then
+	-- 	return false;
+	-- end
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName, DebuffName)
 end
 

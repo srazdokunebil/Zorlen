@@ -403,6 +403,22 @@ function isRighteousFuryActive()
 end
 
 --Added by Dispatch
+function isBoFReady()
+	if vr.api.IsSpellReady("Blessing of Freedom") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function isBoPReady()
+	if vr.api.IsSpellReady("Blessing of Protection") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
 function isDivineFavorReady()
 	if vr.api.IsSpellReady("Divine Favor") then
 		return true;
@@ -429,6 +445,30 @@ end
 --Added by Dispatch
 function isHammerOfJusticeReady()
 	if vr.api.IsSpellReady("Hammer of Justice") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function isHammerOfJusticeUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, "Spell_Holy_SealOfMight") then
+				Ability_Hammer_of_Justice = i
+			end
+		end
+	end
+	if Ability_Hammer_of_Justice and IsActionInRange(Ability_Hammer_of_Justice) == 1 then
+		return true
+	end
+	return false
+end
+
+--Added by Dispatch
+function isLoHReady()
+	if vr.api.IsSpellReady("Lay on Hands") then
 		return true;
 	end
 	return false;
@@ -469,6 +509,18 @@ function castBlessingOfMight(test)
 end
 castBOM = castBlessingOfMight
 
+--Added by Dispatch
+function castBlessingOfProtection(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfProtection
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castBOP = castBlessingOfProtection
 
 --Added by charroux
 function castDevotionAura(test)
@@ -480,6 +532,19 @@ function castDevotionAura(test)
 	return Zorlen_CastCommonRegisteredSpell(z)
 end
 castDA = castDevotionAura
+
+--Added by Dispatch
+function castLayOnHands(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.LayOnHands
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castLOH = castLayOnHands
 
 --Added by charroux
 function castRetributionAura(test)
