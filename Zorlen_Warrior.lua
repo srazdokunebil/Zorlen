@@ -1170,7 +1170,7 @@ function Zorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww040,
 	if not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; CastSpellByName("Sunder Armor"); elseif not psychoSunderAttack and isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; elseif not psychoSunderAttack and targetHealth > 0.20 and targetHealth < sunderMobPercentage then psychoSunderAttack = true; elseif not psychoSunderAttack and not (GetUnitName("target") == nil or UnitIsDead("target")) and UnitHealthMax("target") <= sunderMobHealth then psychoSunderAttack = true; end
 	
 	-- Stance dance :)
-	if (Zorlen_isEnemyTargetingYou() and ((btcd == 0 or btgcd) or (wwcd ~=0 and not wwgcd)) and playerRage < 0.25) then castBattleStance(); elseif ((btcd ~= 0 and not btgcd) and playerRage > 0.15 and (targetHealth > 0.2)) or not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
+	--if (Zorlen_isEnemyTargetingYou() and ((btcd == 0 or btgcd) or (wwcd ~=0 and not wwgcd)) and playerRage < 0.25) then castBattleStance(); elseif ((btcd ~= 0 and not btgcd) and playerRage > 0.15 and (targetHealth > 0.2)) or not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
 	
 	-- Lets bloodrage, but only if we're outside some windows or will mess up execute. Same for Battle Shout
 	if not isAttackActive() or (not cuttingItClose and not holdBackGcd and targetHealth > 0.30 and outsideRotationWindow and UnitHealth("player") / UnitHealthMax("player") > 0.5 and playerRage < 0.3) then castBloodrage(); end
@@ -1265,7 +1265,7 @@ function Zorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt055, 
 	if not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; CastSpellByName("Sunder Armor"); elseif not psychoSunderAttack and isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; elseif not psychoSunderAttack and targetHealth > 0.20 and targetHealth < sunderMobPercentage then psychoSunderAttack = true; elseif not psychoSunderAttack and not (GetUnitName("target") == nil or UnitIsDead("target")) and UnitHealthMax("target") <= sunderMobHealth then psychoSunderAttack = true; end
 
 	-- Stance dance
-	if (Zorlen_isEnemyTargetingYou() and (wwcd ~= 0 and not wwgcd) and playerRage < 0.25) then castBattleStance(); elseif ((wwcd == 0 and wwgcd) and (targetHealth > 0.2)) or not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
+	--if (Zorlen_isEnemyTargetingYou() and (wwcd ~= 0 and not wwgcd) and playerRage < 0.25) then castBattleStance(); elseif ((wwcd == 0 and wwgcd) and (targetHealth > 0.2)) or not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
 
 	-- Lets bloodrage, but only if we're outside some windows or will mess up execute. Same for Battle Shout
 	if not isAttackActive() or (not cuttingItClose and not holdBackGcd and targetHealth > 0.30 and outsideRotationWindow and UnitHealth("player") / UnitHealthMax("player") > 0.5 and playerRage < 0.3) then castBloodrage(); end
@@ -1354,7 +1354,7 @@ function Zorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, targetBoss
 	-- Lets decide if we sunder or not
 	if not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; CastSpellByName("Sunder Armor"); elseif not psychoSunderAttack and isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; elseif not psychoSunderAttack and targetHealth > 0.20 and targetHealth < sunderMobPercentage then psychoSunderAttack = true; elseif not psychoSunderAttack and not (GetUnitName("target") == nil or UnitIsDead("target")) and UnitHealthMax("target") <= sunderMobHealth then psychoSunderAttack = true; end
 
-	if (Zorlen_isEnemyTargetingYou()and playerRage < 0.25) then castBattleStance(); elseif not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
+	--if (Zorlen_isEnemyTargetingYou()and playerRage < 0.25) then castBattleStance(); elseif not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); end
 	
 	-- Lets bloodrage, but only if we're outside some windows or will mess up execute. Same for Battle Shout
 	if not isAttackActive() or (not cuttingItClose and not holdBackGcd and targetHealth > 0.30 and outsideRotationWindow and UnitHealth("player") / UnitHealthMax("player") > 0.5 and playerRage < 0.3) then castBloodrage(); end
