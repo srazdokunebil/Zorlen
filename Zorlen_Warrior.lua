@@ -260,32 +260,57 @@ function Zorlen_Warrior_OnEvent_CHAT_MSG_COMBAT_SELF_MISSES(arg1, arg2, arg3)
 end
 
 
+-- function Zorlen_Warrior_OnEvent_CHAT_MSG_SPELL_SELF_DAMAGE(arg1, arg2, arg3, TargetName, failed, immune, hit)
+-- 	if failed and Zorlen_LastCastingSpellName == LOCALIZATION_ZORLEN.Devastate then
+-- 		Zorlen_ClearTimer(LOCALIZATION_ZORLEN.SunderArmor, nil, "InternalZorlenSpellTimers", 1)
+-- 	end
+-- 	if not immune and string.find(arg1, LOCALIZATION_ZORLEN.dodged) then
+-- 		Zorlen_debug("Target dodged. "..LOCALIZATION_ZORLEN.Overpower.." now!")
+-- 		Zorlen_SetTimer(5, "TargetDodgedYou_Overpower", nil, "InternalZorlenMiscTimer", 2, 1)
+-- 	elseif not immune and not failed and hit and string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.HitsOrCritsArray[hit], "%(%.%+%)", LOCALIZATION_ZORLEN.Hamstring, "%(%.%*%)", TargetName)) then
+-- 		Zorlen_SetTimer(1, "CheckForHamstringDebuffWindow_timer", nil, "InternalZorlenMiscTimer", 2, 1)
+-- 	elseif not immune then
+-- 		return
+-- 	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.Hamstring, TargetName)) then
+-- 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.Hamstring.."!")
+-- 		Zorlen_WasHamstringSpellCastImmune = 1
+-- 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.Hamstring, "immune", "InternalZorlenMiscTimer")
+-- 	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.SunderArmor, TargetName)) then
+-- 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.SunderArmor.."!")
+-- 		Zorlen_WasSunderSpellCastImmune = 1
+-- 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.SunderArmor, "immune", "InternalZorlenMiscTimer")
+-- 	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.Rend, TargetName)) then
+-- 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.Rend.."!")
+-- 		Zorlen_WasRendSpellCastImmune = 1
+-- 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.Rend, "immune", "InternalZorlenMiscTimer")
+-- 	end
+-- end
+
 function Zorlen_Warrior_OnEvent_CHAT_MSG_SPELL_SELF_DAMAGE(arg1, arg2, arg3, TargetName, failed, immune, hit)
-	if failed and Zorlen_LastCastingSpellName == LOCALIZATION_ZORLEN.Devastate then
+	if failed and Zorlen_LastCastingSpellName and Zorlen_LastCastingSpellName == LOCALIZATION_ZORLEN.Devastate and string.find(arg1, Zorlen_LastCastingSpellName) then
 		Zorlen_ClearTimer(LOCALIZATION_ZORLEN.SunderArmor, nil, "InternalZorlenSpellTimers", 1)
 	end
 	if not immune and string.find(arg1, LOCALIZATION_ZORLEN.dodged) then
 		Zorlen_debug("Target dodged. "..LOCALIZATION_ZORLEN.Overpower.." now!")
 		Zorlen_SetTimer(5, "TargetDodgedYou_Overpower", nil, "InternalZorlenMiscTimer", 2, 1)
 	elseif not immune and not failed and hit and string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.HitsOrCritsArray[hit], "%(%.%+%)", LOCALIZATION_ZORLEN.Hamstring, "%(%.%*%)", TargetName)) then
-		Zorlen_SetTimer(1, "CheckForHamstringDebuffWindow_timer", nil, "InternalZorlenMiscTimer", 2, 1)
+		Zorlen_SetTimer(1, "CheckForHamstringDebuffWindow_timer", nil, "InternalZorlenMiscTimer", 2, Zorlen_CheckForHamstringDebuffWindow_timer_function)
 	elseif not immune then
 		return
-	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.Hamstring, TargetName)) then
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.Hamstring, "%(%.%*%)", TargetName)) then
 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.Hamstring.."!")
 		Zorlen_WasHamstringSpellCastImmune = 1
 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.Hamstring, "immune", "InternalZorlenMiscTimer")
-	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.SunderArmor, TargetName)) then
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.SunderArmor, "%(%.%*%)", TargetName)) then
 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.SunderArmor.."!")
 		Zorlen_WasSunderSpellCastImmune = 1
 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.SunderArmor, "immune", "InternalZorlenMiscTimer")
-	elseif string.find(arg1, Zorlen_gsub_immune(LOCALIZATION_ZORLEN.Rend, TargetName)) then
+	elseif string.find(arg1, Zorlen_gsub(LOCALIZATION_ZORLEN.ImmuneArray[immune], "%(%.%+%)", LOCALIZATION_ZORLEN.Rend, "%(%.%*%)", TargetName)) then
 		Zorlen_debug("Target is immune to "..LOCALIZATION_ZORLEN.Rend.."!")
 		Zorlen_WasRendSpellCastImmune = 1
 		Zorlen_SetTimer(7, LOCALIZATION_ZORLEN.Rend, "immune", "InternalZorlenMiscTimer")
 	end
 end
-
 
 
 function Zorlen_Warrior_OnEvent_CHAT_MSG_SPELL_FAILED_LOCALPLAYER(arg1, arg2, arg3)
