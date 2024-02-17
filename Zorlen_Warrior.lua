@@ -627,7 +627,7 @@ function castBerserkerStance(test)
 end
 
 function castBloodrage(test)
-	print('Invoking castBloodrage()')
+	--print('Invoking castBloodrage()')
 	local SpellName = LOCALIZATION_ZORLEN.Bloodrage
 	local SelfHealthGreaterThanPercent = 20
 	local EnemyTargetNotNeeded = 1
