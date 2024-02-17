@@ -522,6 +522,19 @@ function castBlessingOfProtection(test)
 end
 castBOP = castBlessingOfProtection
 
+--Added by Dispatch
+function castBlessingOfSanctuary(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfSanctuary
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castBOSanc = castBlessingOfSanctuary
+
 --Added by charroux
 function castDevotionAura(test)
 	local z = {}

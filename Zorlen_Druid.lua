@@ -1678,7 +1678,29 @@ end
 
 
 
+--Added by Dispatch
+function castClickSwiftmend(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Swiftmend
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
 
+--Added by Dispatch
+function castClickInnervate(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Innervate
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
 
 --Added by Mithrael
 --Returns true if Barkskin is active

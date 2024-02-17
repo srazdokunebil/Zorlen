@@ -1387,6 +1387,10 @@ end
 --trusted for some reason. 
 function Zorlen_OnEvent(event, arg1, arg2, arg3)
 	Zorlen_EventsDebug(event, arg1, arg2, arg3, 2)
+	if event == "" then
+		
+	end
+
 	if (event == "PLAYER_REGEN_DISABLED") then
 			---------------------------
 			
@@ -1602,7 +1606,7 @@ function Zorlen_OnEvent(event, arg1, arg2, arg3)
 			--------------------------------------------------------------------------------------------------------
 	elseif (event == ("SPELLCAST_START")) then
 			---------------------------
-			
+
 			Zorlen_Casting = 1
 			Zorlen_CastingSpellRank = Zorlen_Temp_CastingSpellRank
 			Zorlen_CastingSpellTargetName = Zorlen_Temp_CastingSpellTargetName
@@ -1714,6 +1718,7 @@ function Zorlen_OnEvent(event, arg1, arg2, arg3)
 			--------------------------------------------------------------------------------------------------------
 	elseif (event == ("SPELLCAST_INTERRUPTED")) then
 			---------------------------
+			
 			
 			if not Zorlen_Casting and not Zorlen_Channeling then
 				Zorlen_debug("Casting or Channeling Stop: from interruption")
@@ -5710,32 +5715,36 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 	elseif not InfoArray.SpellName then
 		return false
 	end
+	--print('CASTING ' .. tostring(InfoArray.SpellName))
 	if InfoArray.Rank then
 		InfoArray.SpellButton = Zorlen_Button[InfoArray.SpellName.."."..InfoArray.Rank]
 	else
 		InfoArray.SpellButton = Zorlen_Button[InfoArray.SpellName]
 	end
 	local SpellID, STOP = Zorlen_CheckIfCommonRegisteredSpellCastable(InfoArray)
+	--print('CASTPROBE')
 	if SpellID then
+		--print('CASTSPELLID')
 		if not InfoArray.Test then
 			if InfoArray.StopCasting and Zorlen_isCasting() then
 				SpellStopCasting()
+				--print('CASTSTOP')
 			else
 				if InfoArray.SpellButton then
-
+					--print('CASTBUTTON')
 					UseAction(InfoArray.SpellButton)
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
 					vr.api.LastSpellCast = GetTime()
 
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
-
+					--print('CASTRANK')
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
 					--vr:LogAction("Casting InfoArray.Rank")
 					vr.log.Action("Casting " .. InfoArray.SpellName .. "(Rank " .. InfoArray.Rank .. ").")
 					vr.api.LastSpellCast = GetTime()
 
 				else
-
+					--print('CASTSPELL')
 					CastSpell(SpellID, 0)
 					--vr:LogAction("Casting Regular")
 					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
@@ -5858,6 +5867,7 @@ function Zorlen_CheckIfCommonRegisteredSpellCastable(InfoArray)
 		hasRange = ActionHasRange(InfoArray.AnySpellButton)
 		inRange = IsActionInRange(InfoArray.AnySpellButton)
 	end
+	
 	if not Zorlen_isCasting() or InfoArray.StopCasting then
 		if not Zorlen_isChanneling(InfoArray.SpellName) and (InfoArray.SpellButton or not SpellIsTargeting() or InfoArray.StopCasting) then
 			if not InfoArray.SpellButton or ( isUsable == 1 and not notEnoughMana and (isCurrent ~= 1 or InfoArray.StopCasting) ) then
@@ -5869,6 +5879,7 @@ function Zorlen_CheckIfCommonRegisteredSpellCastable(InfoArray)
 									if InfoArray.EnemyTargetNotNeeded or Zorlen_isEnemy() then
 										if (not InfoArray.DoDebuffIncluded and not InfoArray.DebuffName and not InfoArray.DebuffCheckIncluded and not InfoArray.DebuffTimer) or (InfoArray.DoDebuffIncluded and InfoArray.DoDebuff) or (not Zorlen_AllDebuffSlotsUsed() and not Zorlen_IsTimer(InfoArray.SpellName, nil, "InternalZorlenSpellCastDelay") and ((InfoArray.DebuffName and not Zorlen_checkDebuffByName(InfoArray.DebuffName)) or (InfoArray.DebuffCheckIncluded and not InfoArray.DebuffCheck) or (InfoArray.DebuffTimer and not Zorlen_IsTimer(InfoArray.SpellName, InfoArray.TargetName, "InternalZorlenSpellTimers")))) then
 											if (not InfoArray.DoBuffIncluded and not InfoArray.BuffName and not InfoArray.BuffCheckIncluded) or (InfoArray.DoBuffIncluded and InfoArray.DoBuff) or (not Zorlen_IsTimer(InfoArray.SpellName, InfoArray.TargetName, "InternalZorlenSpellCastDelay") and ((InfoArray.BuffName and not Zorlen_checkBuffByName(InfoArray.BuffName, InfoArray.BuffUnit)) or (InfoArray.BuffCheckIncluded and not InfoArray.BuffCheck))) then
+												--print('well we got here')
 												if InfoArray.SpellButton then
 													return InfoArray.SpellButton
 												else

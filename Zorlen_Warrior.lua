@@ -587,7 +587,15 @@ function Zorlen_ShieldSlamRageCost()
 	return 0
 end
 
+-------------------------------------------------------------------------------
 
+function castBattleShout(test)
+	local SpellName = LOCALIZATION_ZORLEN.BattleShout
+	local ManaNeeded = 10
+	local EnemyTargetNotNeeded = 1
+	local BuffName = SpellName
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, EnemyTargetNotNeeded, BuffName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
 
 function castBattleStance(test)
 	local SpellName = LOCALIZATION_ZORLEN.BattleStance
@@ -598,11 +606,13 @@ function castBattleStance(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castDefensiveStance(test)
-	local SpellName = LOCALIZATION_ZORLEN.DefensiveStance
+function castBerserkerRage(test)
+	local SpellName = LOCALIZATION_ZORLEN.BerserkerRage
 	local EnemyTargetNotNeeded = 1
-	if Zorlen_CheckWarriorStance(SpellName) then
-		return false
+	if not Zorlen_Button[SpellName] then
+		if not isBerserkerStance() then
+			return false
+		end
 	end
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
@@ -616,16 +626,12 @@ function castBerserkerStance(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-
-function castMortalStrike(test)
-	local SpellName = LOCALIZATION_ZORLEN.MortalStrike
-	local ManaNeeded = 30
-	if not Zorlen_Button[SpellName] then
-		if not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+function castBloodrage(test)
+	print('Invoking castBloodrage()')
+	local SpellName = LOCALIZATION_ZORLEN.Bloodrage
+	local SelfHealthGreaterThanPercent = 20
+	local EnemyTargetNotNeeded = 1
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, SelfHealthGreaterThanPercent, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
 function castBloodthirst(test)
@@ -634,27 +640,12 @@ function castBloodthirst(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castShieldSlam(test)
-	local SpellName = LOCALIZATION_ZORLEN.ShieldSlam
-	local ManaNeeded = 20
-	if not Zorlen_Button[SpellName] then
-		if not Zorlen_isShieldEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-
-function castConcussionBlow(test)
-	local SpellName = LOCALIZATION_ZORLEN.ConcussionBlow
-	local ManaNeeded = 15
-	if not Zorlen_Button[SpellName] then
-		if not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+function castChallengingShout(test)
+	print('Invoking castChallengingShout()')
+	local SpellName = LOCALIZATION_ZORLEN.ChallengingShout
+	local EnemyTargetNotNeeded = 1
+	local ManaNeeded = 5
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
 function castCharge(test)
@@ -667,17 +658,140 @@ function castCharge(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castTaunt(test)
-	local SpellName = LOCALIZATION_ZORLEN.Taunt
+function castCleave(test)
+	local SpellName = LOCALIZATION_ZORLEN.Cleave
+	local ManaNeeded = 20
+	if not Zorlen_Button[SpellName] then
+		if not Zorlen_isMainHandEquipped() then
+			return false
+		end
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castConcussionBlow(test)
+	local SpellName = LOCALIZATION_ZORLEN.ConcussionBlow
+	local ManaNeeded = 15
+	if not Zorlen_Button[SpellName] then
+		if not Zorlen_isMainHandEquipped() then
+			return false
+		end
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castDeathWish(test)
+	local SpellName = LOCALIZATION_ZORLEN.DeathWish
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castDefensiveStance(test)
+	local SpellName = LOCALIZATION_ZORLEN.DefensiveStance
+	local EnemyTargetNotNeeded = 1
+	if Zorlen_CheckWarriorStance(SpellName) then
+		return false
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castDemoralizingShout(test)
+	local SpellName = LOCALIZATION_ZORLEN.DemoralizingShout
+	local DebuffName = SpellName
+	local DebuffImmune = Zorlen_DemoSpellCastImmune
+	local ManaNeeded = 10
+	local NoRangeCheck = 1
+	if not CheckInteractDistance("target", 3) then
+		return false
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
+end
+
+function castDisarm(test)
+	local SpellName = LOCALIZATION_ZORLEN.Disarm
+	local DebuffName = SpellName
+	local DebuffImmune = Zorlen_DisarmSpellCastImmune
+	local ManaNeeded = 20
 	if not Zorlen_Button[SpellName] then
 		if not isDefensiveStance() then
 			return false
 		end
 	end
-	if not Zorlen_TargetIsEnemyTargetingFriendButNotYou() then
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+-- Will some times make getting critted on much more likely.
+-- This may cause you more damage so use cautiously.
+function castEnrage()
+	local u = UnitHealth("player") / UnitHealthMax("player") > 0.2
+	local t = Zorlen_GetTalentRank(LOCALIZATION_ZORLEN.Enrage) > 0
+	local e = isEnrageActive()
+	if not e and t and u and not Zorlen_TargetIsDieingEnemy() then
+		ClearTarget()
+		DoEmote(LOCALIZATION_ZORLEN.sit)
+		backOff()
+		return true
+	elseif Zorlen_inCombat() and not UnitExists("target") and (e or (t and not u)) then
+		TargetLastEnemy()
+		return true
+	end
+	return false
+end
+
+function castExecute(test)
+	local SpellName = LOCALIZATION_ZORLEN.Execute
+	local ManaNeeded = nil
+	if not Zorlen_Button[SpellName] then
+		if isDefensiveStance() or not Zorlen_TargetIsDieingEnemy() or not Zorlen_isMainHandEquipped() then
+			return false
+		end
+		ManaNeeded = Zorlen_ExecuteRageCost()
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castHamstring(test)
+	local SpellName = LOCALIZATION_ZORLEN.Hamstring
+	local DebuffName = SpellName
+	local DebuffImmune = Zorlen_IsTimer(SpellName, "immune", "InternalZorlenMiscTimer")
+	local ManaNeeded = 10
+	if not Zorlen_Button[SpellName] then
+		if isDefensiveStance() or not Zorlen_isMainHandEquipped() then
+			return false
+		end
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castHeroicStrike(test)
+	local SpellName = LOCALIZATION_ZORLEN.HeroicStrike
+	local ManaNeeded = nil
+	if not Zorlen_Button[SpellName] then
+		if not Zorlen_isMainHandEquipped() then
+			return false
+		end
+		ManaNeeded = Zorlen_HeroicStrikeRageCost()
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castIntercept(test)
+	local SpellName = LOCALIZATION_ZORLEN.Intercept
+	local ManaNeeded = 10
+	if not Zorlen_Button[SpellName] then
+		if not isBerserkerStance() then
+			return false
+		end
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+end
+
+function castLastStand(test)
+	local SpellName = LOCALIZATION_ZORLEN.LastStand
+	local EnemyTargetNotNeeded = 1
+	if Zorlen_HealthDamagePercent("player") < 30 then
 		return false
 	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
 function castMockingBlow(test)
@@ -693,11 +807,11 @@ function castMockingBlow(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castIntercept(test)
-	local SpellName = LOCALIZATION_ZORLEN.Intercept
-	local ManaNeeded = 10
+function castMortalStrike(test)
+	local SpellName = LOCALIZATION_ZORLEN.MortalStrike
+	local ManaNeeded = 30
 	if not Zorlen_Button[SpellName] then
-		if not isBerserkerStance() then
+		if not Zorlen_isMainHandEquipped() then
 			return false
 		end
 	end
@@ -715,49 +829,25 @@ function castOverpower(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castRevenge(test)
-	local SpellName = LOCALIZATION_ZORLEN.Revenge
-	local ManaNeeded = 5
-	if not Zorlen_Button[SpellName] then
-		if not isDefensiveStance() or not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castCleave(test)
-	local SpellName = LOCALIZATION_ZORLEN.Cleave
-	local ManaNeeded = 20
-	if not Zorlen_Button[SpellName] then
-		if not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castWhirlwind(test)
-	local SpellName = LOCALIZATION_ZORLEN.Whirlwind
-	local ManaNeeded = 25
-	if not Zorlen_Button[SpellName] then
-		if not isBerserkerStance() or not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castSweepingStrikes(test)
-	local SpellName = LOCALIZATION_ZORLEN.SweepingStrikes
-	local ManaNeeded = 30
-	if not Zorlen_Button[SpellName] then
-		if not isBattleStance() then
-			return false
-		end
-	end
-	if not Zorlen_isMainHandEquipped() then
+function castPiercingHowl(test)
+	local SpellName = LOCALIZATION_ZORLEN.PiercingHowl
+	local DebuffName = SpellName
+	local DebuffImmune = Zorlen_PiercingHowlSpellCastImmune
+	local ManaNeeded = 10
+	local NoRangeCheck = 1
+	if not CheckInteractDistance("target", 3) then
 		return false
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
+end
+
+function castPummel(test)
+	local SpellName = LOCALIZATION_ZORLEN.Pummel
+	local ManaNeeded = 10
+	if not Zorlen_Button[SpellName] then
+		if not isBerserkerStance() then
+			return false
+		end
 	end
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
@@ -776,56 +866,15 @@ function castRend(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test, DebuffTimer)
 end
 
-function castDisarm(test)
-	local SpellName = LOCALIZATION_ZORLEN.Disarm
-	local DebuffName = SpellName
-	local DebuffImmune = Zorlen_DisarmSpellCastImmune
-	local ManaNeeded = 20
+function castRevenge(test)
+	local SpellName = LOCALIZATION_ZORLEN.Revenge
+	local ManaNeeded = 5
 	if not Zorlen_Button[SpellName] then
-		if not isDefensiveStance() then
+		if not isDefensiveStance() or not Zorlen_isMainHandEquipped() then
 			return false
 		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castHamstring(test)
-	local SpellName = LOCALIZATION_ZORLEN.Hamstring
-	local DebuffName = SpellName
-	local DebuffImmune = Zorlen_IsTimer(SpellName, "immune", "InternalZorlenMiscTimer")
-	local ManaNeeded = 10
-	if not Zorlen_Button[SpellName] then
-		if isDefensiveStance() or not Zorlen_isMainHandEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castExecute(test)
-	local SpellName = LOCALIZATION_ZORLEN.Execute
-	local ManaNeeded = nil
-	if not Zorlen_Button[SpellName] then
-		if isDefensiveStance() or not Zorlen_TargetIsDieingEnemy() or not Zorlen_isMainHandEquipped() then
-			return false
-		end
-		ManaNeeded = Zorlen_ExecuteRageCost()
 	end
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castThunderClap(test)
-	local SpellName = LOCALIZATION_ZORLEN.ThunderClap
-	local DebuffName = SpellName
-	local ManaNeeded = nil
-	local NoRangeCheck = 1
-	if not Zorlen_Button[SpellName] then
-		if not isBattleStance() then
-			return false
-		end
-		ManaNeeded = Zorlen_ThunderClapRageCost()
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
 end
 
 function castShieldBash(test)
@@ -833,17 +882,6 @@ function castShieldBash(test)
 	local ManaNeeded = 10
 	if not Zorlen_Button[SpellName] then
 		if isBerserkerStance() or not Zorlen_isShieldEquipped() then
-			return false
-		end
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castPummel(test)
-	local SpellName = LOCALIZATION_ZORLEN.Pummel
-	local ManaNeeded = 10
-	if not Zorlen_Button[SpellName] then
-		if not isBerserkerStance() then
 			return false
 		end
 	end
@@ -865,99 +903,70 @@ function castShieldBlock(test)
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, BuffName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castHeroicStrike(test)
-	local SpellName = LOCALIZATION_ZORLEN.HeroicStrike
-	local ManaNeeded = nil
+function castShieldSlam(test)
+	local SpellName = LOCALIZATION_ZORLEN.ShieldSlam
+	local ManaNeeded = 20
 	if not Zorlen_Button[SpellName] then
-		if not Zorlen_isMainHandEquipped() then
+		if not Zorlen_isShieldEquipped() then
 			return false
 		end
-		ManaNeeded = Zorlen_HeroicStrikeRageCost()
 	end
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castDemoralizingShout(test)
-	local SpellName = LOCALIZATION_ZORLEN.DemoralizingShout
-	local DebuffName = SpellName
-	local DebuffImmune = Zorlen_DemoSpellCastImmune
-	local ManaNeeded = 10
-	local NoRangeCheck = 1
-	if not CheckInteractDistance("target", 3) then
-		return false
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
-end
-
-function castPiercingHowl(test)
-	local SpellName = LOCALIZATION_ZORLEN.PiercingHowl
-	local DebuffName = SpellName
-	local DebuffImmune = Zorlen_PiercingHowlSpellCastImmune
-	local ManaNeeded = 10
-	local NoRangeCheck = 1
-	if not CheckInteractDistance("target", 3) then
-		return false
-	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, DebuffImmune, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
-end
-
-function castBattleShout(test)
-	local SpellName = LOCALIZATION_ZORLEN.BattleShout
-	local ManaNeeded = 10
-	local EnemyTargetNotNeeded = 1
-	local BuffName = SpellName
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, EnemyTargetNotNeeded, BuffName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castBerserkerRage(test)
-	local SpellName = LOCALIZATION_ZORLEN.BerserkerRage
-	local EnemyTargetNotNeeded = 1
+function castSweepingStrikes(test)
+	local SpellName = LOCALIZATION_ZORLEN.SweepingStrikes
+	local ManaNeeded = 30
 	if not Zorlen_Button[SpellName] then
-		if not isBerserkerStance() then
+		if not isBattleStance() then
 			return false
 		end
 	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+	if not Zorlen_isMainHandEquipped() then
+		return false
+	end
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castBloodrage(test)
-	local SpellName = LOCALIZATION_ZORLEN.Bloodrage
-	local SelfHealthGreaterThanPercent = 20
-	local EnemyTargetNotNeeded = 1
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, SelfHealthGreaterThanPercent, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
-end
-
-function castDeathWish(test)
-	local SpellName = LOCALIZATION_ZORLEN.DeathWish
+function castTaunt(test)
+	local SpellName = LOCALIZATION_ZORLEN.Taunt
+	if not Zorlen_Button[SpellName] then
+		if not isDefensiveStance() then
+			return false
+		end
+	end
+	if not Zorlen_TargetIsEnemyTargetingFriendButNotYou() then
+		return false
+	end
 	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
 
-function castLastStand(test)
-	local SpellName = LOCALIZATION_ZORLEN.LastStand
-	local EnemyTargetNotNeeded = 1
-	if Zorlen_HealthDamagePercent("player") < 30 then
-		return false
+function castThunderClap(test)
+	local SpellName = LOCALIZATION_ZORLEN.ThunderClap
+	local DebuffName = SpellName
+	local ManaNeeded = nil
+	local NoRangeCheck = 1
+	if not Zorlen_Button[SpellName] then
+		if not isBattleStance() then
+			return false
+		end
+		ManaNeeded = Zorlen_ThunderClapRageCost()
 	end
-	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, nil, nil, EnemyTargetNotNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, DebuffName, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, NoRangeCheck, test)
 end
 
--- Will some times make getting critted on much more likely.
--- This may cause you more damage so use cautiously.
-function castEnrage()
-	local u = UnitHealth("player") / UnitHealthMax("player") > 0.2
-	local t = Zorlen_GetTalentRank(LOCALIZATION_ZORLEN.Enrage) > 0
-	local e = isEnrageActive()
-	if not e and t and u and not Zorlen_TargetIsDieingEnemy() then
-		ClearTarget()
-		DoEmote(LOCALIZATION_ZORLEN.sit)
-		backOff()
-		return true
-	elseif Zorlen_inCombat() and not UnitExists("target") and (e or (t and not u)) then
-		TargetLastEnemy()
-		return true
+function castWhirlwind(test)
+	local SpellName = LOCALIZATION_ZORLEN.Whirlwind
+	local ManaNeeded = 25
+	if not Zorlen_Button[SpellName] then
+		if not isBerserkerStance() or not Zorlen_isMainHandEquipped() then
+			return false
+		end
 	end
-	return false
+	return Zorlen_CastCommonRegisteredSpell(nil, SpellName, nil, nil, ManaNeeded, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, test)
 end
+
+-------------------------------------------------------------------------------
 
 function Zorlen_TargetEnemyThenChargeOrIntercept()
 	if not Zorlen_TargetIsEnemy() then
@@ -1125,7 +1134,9 @@ end
 -- /script psychoInRaid = false;
 -- /script Zorlen_debug("PsychoInRaid: " .. tostring(psychoInRaid), 1)
 
-
+function Zorlen_EatMyShit()
+	SendChatMessage("Hello world")
+end
 
 -- btIndex > index of the Bloodthirst spell in your spellbook. Start counting from first page left side first, then right side.
 -- wwIndex > index of the Whirlwind spell in your spellbook. Start counting from first page left side first, then right side.
@@ -1202,8 +1213,24 @@ function Zorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww040,
 	if (not isAttackActive() and not isBattleShoutActive()) or (not cuttingItClose and not holdBackGcd and targetHealth > 0.20 and outsideRotationWindow and (not isBattleShoutActive() or ((currenttime - psychoBsCastTime) > 110)) and playerRage > 0.1 and gcd == 0) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Battle Shout"); end
 		
 	-- Huge check to decide if we'll execute or bloodthirst based on ATP
-	if targetHealth < 0.20 then if playerRage > 0.30 and playerRage < 0.45 and atpEffective > 2000 and btcd == 0 then CastSpellByName("Bloodthirst"); CastSpellByName("Heroic Strike"); else CastSpellByName("Execute"); CastSpellByName("Heroic Strike"); end elseif playerRage > 0.30 and psychoSunderAttack then CastSpellByName("Bloodthirst") end
-	
+	if targetHealth < 0.20 then
+		if playerRage > 0.30
+		and playerRage < 0.45
+		and atpEffective > 2000
+		and btcd == 0 then
+			CastSpellByName("Bloodthirst")
+			CastSpellByName("Heroic Strike")
+		else
+			if Cg("Execute") then
+				CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+			end
+			CastSpellByName("Heroic Strike")
+		end
+	elseif playerRage > 0.30
+	and psychoSunderAttack then
+		CastSpellByName("Bloodthirst")
+	end
+
 	-- Conditions for doing WW
 	local psychoShouldWhirlwind = Zorlen_PsychoShouldWhirlwind(targetHealth, targetIsBoss, psychoInRaid);
 	if psychoSunderAttack and psychoShouldWhirlwind and not holdBackGcd and isBerserkerStance() and targetHealth > 0.20 and (btcd ~=0 and not btgcd) and playerRage > ww025 and (currenttime - btcd) < 2 then CastSpellByName("Whirlwind") end
@@ -1301,7 +1328,20 @@ function Zorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt055, 
 	if isBerserkerStance() and psychoSunderAttack and targetHealth < 0.20 and (playerRage < 0.7 or prioCleave) then CastSpellByName("Whirlwind"); end
 	
 	-- Conditions for doing BT and execute
-	if targetHealth < 0.20 then if playerRage > 0.30 and atpEffective > 2000 and btcd == 0 then CastSpellByName("Bloodthirst"); elseif (not prioCleave or targetIsBoss or isBattleStance()) then CastSpellByName("Execute"); if playerRage > 0.2 then CastSpellByName("Cleave"); else CastSpellByName("Heroic Strike"); end end end
+	if targetHealth < 0.20 then
+		if playerRage > 0.30
+		and atpEffective > 2000
+		and btcd == 0 then
+			CastSpellByName("Bloodthirst")
+		elseif (not prioCleave or targetIsBoss or isBattleStance()) then
+			CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+			if playerRage > 0.2 then
+				CastSpellByName("Cleave")
+			else
+				CastSpellByName("Heroic Strike")
+			end
+		end
+	end
 	if psychoSunderAttack and ((targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) < 7 and playerRage > bt040 then CastSpellByName("Bloodthirst"); end
 	if psychoSunderAttack and ((targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) <= 9.2 and playerRage > bt055 then CastSpellByName("Bloodthirst"); end
 
@@ -1386,8 +1426,22 @@ function Zorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, targetBoss
 	if (not isAttackActive() and not isBattleShoutActive()) or (not cuttingItClose and not holdBackGcd and targetHealth > 0.20 and outsideRotationWindow and (not isBattleShoutActive() or ((currenttime - psychoBsCastTime) > 110)) and playerRage > 0.1 and gcd == 0) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Battle Shout"); end
 
 	-- Huge check to decide if we'll execute or bloodthirst based on ATP
-	if targetHealth < 0.20 then if playerRage > 0.30 and playerRage < 0.45 and atpEffective > 2000 and btcd == 0 then CastSpellByName("Bloodthirst"); CastSpellByName("Heroic Strike"); else CastSpellByName("Execute"); CastSpellByName("Heroic Strike"); end elseif playerRage > 0.30 and psychoSunderAttack then CastSpellByName("Bloodthirst") end
-
+	if targetHealth < 0.20 then
+		if playerRage > 0.30
+		and playerRage < 0.45
+		and atpEffective > 2000
+		and btcd == 0 then
+			CastSpellByName("Bloodthirst")
+			CastSpellByName("Heroic Strike")
+		else
+			CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+			CastSpellByName("Heroic Strike")
+		end
+	elseif playerRage > 0.30
+	and psychoSunderAttack then
+		CastSpellByName("Bloodthirst")
+	end
+	
 	-- Heroic strike conditions
 	if psychoSunderAttack and (playerRage > (rageGain * 0.2)) and targetHealth > 0.20 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2)) then CastSpellByName("Heroic Strike"); end
 	if psychoSunderAttack and (playerRage > (rageGain * 0.3)) and targetHealth > 0.20 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 4)) then CastSpellByName("Heroic Strike"); end
