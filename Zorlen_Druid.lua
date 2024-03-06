@@ -1726,6 +1726,15 @@ function isNaturesSwiftnessActive()
 	return Zorlen_checkBuff("Spell_Nature_RavenForm")
 end
 
+--Added by Dispatch
+--Returns true if Nature's Swiftness is ready
+function isNaturesSwiftnessReady()
+	if vr.api.IsSpellReady("Nature's Swiftness") then
+		return true;
+	end
+	return false;
+end
+
 --Added by Mithrael
 --If Bark Skin is not already active, it will cast it
 function castBarkskin(SpellRank)
