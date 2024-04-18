@@ -643,7 +643,7 @@ function castMarkOfTheWild()
 end
 
 -- Will only cast the spell on your self if you do not have it on you and will not be able to cast on anything else.
-function castSelfMarkOfTheWild()
+function castSelfMarkOfTheWild(force)
 	local SpellName = LOCALIZATION_ZORLEN.MarkOfTheWild
 	local SpellButton = Zorlen_Button[SpellName]
 	local friend = nil;
@@ -654,7 +654,7 @@ function castSelfMarkOfTheWild()
 			local isUsable, notEnoughMana = IsUsableAction(SpellButton)
 			local _, duration, _ = GetActionCooldown(SpellButton)
 			local isCurrent = IsCurrentAction(SpellButton)
-			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isMarkOfTheWildActive()) then
+			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isMarkOfTheWildActive() or force) then
 				if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
 					friend = 1;
 					TargetUnit("player");
@@ -706,7 +706,69 @@ function castSelfMarkOfTheWild()
 	return false
 end
 
-
+-- Will only cast the spell on your self if you do not have it on you and will not be able to cast on anything else.
+function castSelfOmenofClarity(force)
+	local SpellName = LOCALIZATION_ZORLEN.OmenOfClarity
+	local SpellButton = Zorlen_Button[SpellName]
+	local friend = nil;
+	if SpellButton then
+		if not isCasterForm() then
+			return castCasterForm()
+		else
+			local isUsable, notEnoughMana = IsUsableAction(SpellButton)
+			local _, duration, _ = GetActionCooldown(SpellButton)
+			local isCurrent = IsCurrentAction(SpellButton)
+			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isOmenOfClarityActive() or force) then
+				if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
+					friend = 1;
+					TargetUnit("player");
+				end
+				UseAction(SpellButton)
+				if (friend) then
+					TargetLastTarget();
+				end
+				if SpellIsTargeting() then
+					if SpellCanTargetUnit("player") then
+						SpellTargetUnit("player")
+					else
+						SpellStopTargeting()
+						return false
+					end
+				end
+				return true
+			end
+		end
+	elseif Zorlen_IsSpellKnown(SpellName) then
+		Zorlen_debug(""..SpellName.." was not found on any of the action bars!")
+		if not isCasterForm() then
+			return castCasterForm()
+		else
+			local SpellID = Zorlen_GetSpellID(SpellName);
+			if Zorlen_checkCooldown(SpellID) then
+				if (not isMarkOfTheWildActive()) then
+					if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
+						friend = 1;
+						TargetUnit("player");
+					end
+					CastSpell(SpellID, 0)
+					if (friend) then
+						TargetLastTarget();
+					end
+					if SpellIsTargeting() then
+						if SpellCanTargetUnit("player") then
+							SpellTargetUnit("player")
+						else
+							SpellStopTargeting()
+							return false
+						end
+					end
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
 
 -- Will cast the spell if it is not on your target, if it is on your target or it can not be cast on your target, then it will cast on yourself if it is not on you.
 function castGroupThorns(pet)
@@ -840,9 +902,8 @@ function castThorns()
 end
 
 
-
 -- Will only cast the spell on your self if you do not have it on you and will not be able to cast on anything else.
-function castSelfThorns()
+function castSelfThorns(force)
 	local SpellName = LOCALIZATION_ZORLEN.Thorns
 	local SpellButton = Zorlen_Button[SpellName]
 	local friend = nil;
@@ -853,7 +914,7 @@ function castSelfThorns()
 			local isUsable, notEnoughMana = IsUsableAction(SpellButton)
 			local _, duration, _ = GetActionCooldown(SpellButton)
 			local isCurrent = IsCurrentAction(SpellButton)
-			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isThornsActive()) then
+			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isThornsActive() or force) then
 				if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
 					friend = 1;
 					TargetUnit("player");
@@ -904,9 +965,6 @@ function castSelfThorns()
 	end
 	return false
 end
-
-
-
 
 
 --This will try to heal party or raid members as long as you are not targeting a unit that can be healed by the spell.
@@ -1695,6 +1753,18 @@ function castClickInnervate(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.Innervate
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+
+--Added by Dispatch
+function castClickRebirth(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Rebirth
 	z.BuffName = z.SpellName
 	z.DoBuff = 1
 	z.EnemyTargetNotNeeded = 1

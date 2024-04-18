@@ -485,16 +485,72 @@ end
 --end
 
 --Added by Dispatch
-function castBlessingOfFreedom(test)
-	local z = {}
-	z.Test = test
-	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
-	z.BuffName = z.SpellName
-	z.DoBuff = 1
-	z.EnemyTargetNotNeeded = 1
-	z.SelfCast = 1
-	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
-end
+-- function castBlessingOfFreedom(test)
+-- 	local z = {}
+-- 	z.Test = test
+-- 	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+-- 	z.BuffName = z.SpellName
+-- 	z.DoBuff = 1
+-- 	z.EnemyTargetNotNeeded = 1
+-- 	z.SelfCast = 1
+-- 	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+-- end
+
+-- Will only cast the spell on your self if you do not have it on you and will not be able to cast on anything else.
+	function selfcastBlessingOfFreedom(force)
+		local SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+		local SpellButton = Zorlen_Button[SpellName]
+		local friend = nil;
+		if SpellButton then
+			local isUsable, notEnoughMana = IsUsableAction(SpellButton)
+			local _, duration, _ = GetActionCooldown(SpellButton)
+			local isCurrent = IsCurrentAction(SpellButton)
+			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isBlessingOfFreedomActive() or force) then
+				if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
+					friend = 1;
+					TargetUnit("player");
+				end
+				UseAction(SpellButton)
+				if (friend) then
+					TargetLastTarget();
+				end
+				if SpellIsTargeting() then
+					if SpellCanTargetUnit("player") then
+						SpellTargetUnit("player")
+					else
+						SpellStopTargeting()
+						return false
+					end
+				end
+				return true
+			end
+		elseif Zorlen_IsSpellKnown(SpellName) then
+			Zorlen_debug(""..SpellName.." was not found on any of the action bars!")
+			local SpellID = Zorlen_GetSpellID(SpellName);
+			if Zorlen_checkCooldown(SpellID) then
+				if (not isBlessingOfFreedomActive()) then
+					if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
+						friend = 1;
+						TargetUnit("player");
+					end
+					CastSpell(SpellID, 0)
+					if (friend) then
+						TargetLastTarget();
+					end
+					if SpellIsTargeting() then
+						if SpellCanTargetUnit("player") then
+							SpellTargetUnit("player")
+						else
+							SpellStopTargeting()
+							return false
+						end
+					end
+					return true
+				end
+			end
+		end
+		return false
+	end
 
 --Added by Dispatch
 function castBlessingOfMight(test)
@@ -521,6 +577,19 @@ function castBlessingOfProtection(test)
 	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
 end
 castBOP = castBlessingOfProtection
+
+--Added by Dispatch
+function castBlessingOfFreedom(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castBOF = castBlessingOfFreedom
 
 --Added by Dispatch
 function castBlessingOfSanctuary(test)
