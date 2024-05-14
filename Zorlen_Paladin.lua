@@ -305,9 +305,13 @@ function isBlessingActive()
 	return false
 end
 
+
+
+
+
 --Added by Dispatch
-function isJudgementOfTheCrusaderActive(unit, dispelable)
-	local SpellName = LOCALIZATION_ZORLEN.JudgementOfTheCrusader
+function isJudgementOfLightActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfLight
 	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
 end
 
@@ -318,8 +322,26 @@ function isJudgementOfWisdomActive(unit, dispelable)
 end
 
 --Added by Dispatch
-function isJudgementOfLightActive(unit, dispelable)
-	local SpellName = LOCALIZATION_ZORLEN.JudgementOfLight
+function isJudgementOfJusticeActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfJustice
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
+--Added by Dispatch
+function isJudgementOfTheCrusaderActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfTheCrusader
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
+--Added by Dispatch
+function isJudgementOfRighteousnessActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfRighteousness
+	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
+end
+
+--Added by Dispatch
+function isJudgementOfCommandActive(unit, dispelable)
+	local SpellName = LOCALIZATION_ZORLEN.JudgementOfCommand
 	return Zorlen_checkDebuffByName(SpellName, unit, dispelable)
 end
 
@@ -464,6 +486,14 @@ function isHammerOfJusticeUsable()
 		return true
 	end
 	return false
+end
+
+--Added by Dispatch
+function isJudgementReady()
+	if vr.api.IsSpellReady("Judgement") then
+		return true;
+	end
+	return false;
 end
 
 --Added by Dispatch
@@ -761,7 +791,7 @@ function castSealOfCommand(AnySeal, test)
 	z.SpellName = LOCALIZATION_ZORLEN.SealOfCommand
 	z.BuffName = z.SpellName
 	z.EnemyTargetNotNeeded = 1
-	vr.pal.lastSealOfCommand = GetTime();
+	vr.pal.lastSealOfCommandCast = GetTime();
 	Zorlen_CastCommonRegisteredSpell(z)
 end
 castSotC = castSealOfCommand
@@ -845,8 +875,15 @@ function castJudgement(test)
 	local z = {}
 	z.Test = test
 	z.SpellName = LOCALIZATION_ZORLEN.Judgement
-	vr.pal.lastJudgment = GetTime();
-	return Zorlen_CastCommonRegisteredSpell(z)
+
+	if Zorlen_CastCommonRegisteredSpell(z) then
+		vr.pal.lastJudgment = GetTime();
+		return true
+	else
+		return false
+	end
+	--vr.pal.lastJudgment = GetTime();
+	--return Zorlen_CastCommonRegisteredSpell(z)
 end
 
 --Added by Dispatch

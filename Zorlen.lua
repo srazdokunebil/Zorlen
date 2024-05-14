@@ -5733,21 +5733,27 @@ function Zorlen_CastCommonRegisteredSpell(InfoArray ,b,c,d,e,f,g,h,i,j,k,l,m,n,o
 				if InfoArray.SpellButton then
 					--print('CASTBUTTON')
 					UseAction(InfoArray.SpellButton)
-					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					if GOg("ZorlenSpellCastConfirm") then
+						vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					end
 					vr.api.LastSpellCast = GetTime()
 
 				elseif InfoArray.Rank and InfoArray.Rank <= Zorlen_GetSpellRank(InfoArray.SpellName) then
 					--print('CASTRANK')
 					CastSpellByName(InfoArray.SpellName.."("..LOCALIZATION_ZORLEN.Rank.." "..InfoArray.Rank..")")
 					--vr:LogAction("Casting InfoArray.Rank")
-					vr.log.Action("Casting " .. InfoArray.SpellName .. "(Rank " .. InfoArray.Rank .. ").")
+					if GOg("ZorlenSpellCastConfirm") then
+						vr.log.Action("Casting " .. InfoArray.SpellName .. "(Rank " .. InfoArray.Rank .. ").")
+					end
 					vr.api.LastSpellCast = GetTime()
 
 				else
 					--print('CASTSPELL')
 					CastSpell(SpellID, 0)
 					--vr:LogAction("Casting Regular")
-					vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					if GOg("ZorlenSpellCastConfirm") then
+						vr.log.Action("Casting " .. InfoArray.SpellName .. ".")
+					end
 					vr.api.LastSpellCast = GetTime()
 
 				end

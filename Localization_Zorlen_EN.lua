@@ -545,9 +545,14 @@ LOCALIZATION_ZORLEN = {}
 	LOCALIZATION_ZORLEN["HolyWrath"] = "Holy Wrath"
 	LOCALIZATION_ZORLEN["Judgement"] = "Judgement"
 
-	LOCALIZATION_ZORLEN["JudgementOfTheCrusader"] = "Judgement of the Crusader"
-	LOCALIZATION_ZORLEN["JudgementOfWisdom"] = "Judgement of Wisdom"
+	
+	
 	LOCALIZATION_ZORLEN["JudgementOfLight"] = "Judgement of Light"
+	LOCALIZATION_ZORLEN["JudgementOfWisdom"] = "Judgement of Wisdom"
+	LOCALIZATION_ZORLEN["JudgementOfJustice"] = "Judgement of Justice"
+	LOCALIZATION_ZORLEN["JudgementOfTheCrusader"] = "Judgement of the Crusader"
+	LOCALIZATION_ZORLEN["JudgementOfRighteousness"] = "Judgement of Righteousness"
+	LOCALIZATION_ZORLEN["JudgementOfCommand"] = "Judgement of Command"
 
 	LOCALIZATION_ZORLEN["LayOnHands"] = "Lay on Hands"
 	LOCALIZATION_ZORLEN["Purify"] = "Purify"
