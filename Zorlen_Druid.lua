@@ -1979,3 +1979,102 @@ function castWrath(SpellRank)
 	return Zorlen_CastCommonRegisteredSpell(SpellRank, SpellName, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, SpellCheckNotNeeded)
 end
 
+--Added by Dispatch
+function castClaw(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Claw
+	--CastSpellByName("Claw");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castFerociousBite(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.FerociousBite
+	--CastSpellByName("Ferocious Bite");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castMaul(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Maul
+	--CastSpellByName("Maul");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castPounce(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Pounce
+	--CastSpellByName("Pounce");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castRake(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Rake
+	--CastSpellByName("Rake");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castRavage(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Ravage
+	--CastSpellByName("Ravage");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castRip(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Rip
+	--CastSpellByName("Rip");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castSavageBite(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = "Savage Bite"
+	--CastSpellByName("SavageBite");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castShred(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Shred
+	--CastSpellByName("Shred");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end
+
+--Added by Dispatch
+function castSwipe(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.Swipe
+	--CastSpellByName("Swipe");
+	--vr.api.LastSpellCast = GetTime()
+	return Zorlen_CastCommonRegisteredSpell(z)
+end

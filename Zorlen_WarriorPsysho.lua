@@ -1303,22 +1303,42 @@ function Zorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt055, 
 	if isBerserkerStance() and psychoSunderAttack and targetHealth < 0.20 and (playerRage < 0.7 or prioCleave) then CastSpellByName("Whirlwind"); end
 
 	-- Conditions for doing BT and execute
-	if targetHealth < 0.20 then
-		if playerRage > 0.30
-		and atpEffective > 2000
-		and btcd == 0 then
-			CastSpellByName("Bloodthirst")
-		elseif (not prioCleave or targetIsBoss or isBattleStance()) then
-			if Cg("Execute") then
-				CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+	if Cg("Execute") then
+		if targetHealth < 0.20 then
+			if playerRage > 0.30
+			and atpEffective > 2000
+			and btcd == 0 then
+				CastSpellByName("Bloodthirst")
+			elseif (not prioCleave or targetIsBoss or isBattleStance()) then
+				if Cg("Execute") then
+					CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+				end
+				if playerRage > 0.2 then
+					CastSpellByName("Cleave")
+				else
+					CastSpellByName("Heroic Strike")
+				end
 			end
-			if playerRage > 0.2 then
-				CastSpellByName("Cleave")
-			else
-				CastSpellByName("Heroic Strike")
+		end
+	else
+		if targetHealth < 0.20 then
+			if playerRage > 0.30
+			and atpEffective > 2000
+			and btcd == 0 then
+				CastSpellByName("Bloodthirst")
+			elseif (not prioCleave or targetIsBoss or isBattleStance()) then
+				if Cg("Execute") then
+					CastSpellByName("Bloodthirst")		-- TODO: associate with global execute toggle
+				end
+				if playerRage > 0.2 then
+					CastSpellByName("Cleave")
+				else
+					CastSpellByName("Heroic Strike")
+				end
 			end
 		end
 	end
+
 	if psychoSunderAttack and ((targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) < 7 and playerRage > bt040 then CastSpellByName("Bloodthirst"); end
 	if psychoSunderAttack and ((targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) <= 9.2 and playerRage > bt055 then CastSpellByName("Bloodthirst"); end
 
@@ -1403,23 +1423,44 @@ function Zorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, targetBoss
 	if (not isAttackActive() and not isBattleShoutActive()) or (not cuttingItClose and not holdBackGcd and targetHealth > 0.20 and outsideRotationWindow and (not isBattleShoutActive() or ((currenttime - psychoBsCastTime) > 110)) and playerRage > 0.1 and gcd == 0) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Battle Shout"); end
 
 	-- Huge check to decide if we'll execute or bloodthirst based on ATP
-	if targetHealth < 0.20 then
-		if playerRage > 0.30
-		and playerRage < 0.45
-		and atpEffective > 2000
-		and btcd == 0 then
-			CastSpellByName("Bloodthirst")
-			CastSpellByName("Heroic Strike")
-		else
-			if Cg("Execute") then
-				CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+	if Cg("Execute") then
+		if targetHealth < 0.20 then
+			if playerRage > 0.30
+			and playerRage < 0.45
+			and atpEffective > 2000
+			and btcd == 0 then
+				CastSpellByName("Bloodthirst")
+				CastSpellByName("Heroic Strike")
+			else
+				if Cg("Execute") then
+					CastSpellByName("Execute")		-- TODO: associate with global execute toggle
+				end
+				CastSpellByName("Heroic Strike")
 			end
-			CastSpellByName("Heroic Strike")
+		elseif playerRage > 0.30
+		and psychoSunderAttack then
+			CastSpellByName("Bloodthirst")
 		end
-	elseif playerRage > 0.30
-	and psychoSunderAttack then
-		CastSpellByName("Bloodthirst")
+	else
+		if targetHealth < 0.20 then
+			if playerRage > 0.30
+			and playerRage < 0.45
+			and atpEffective > 2000
+			and btcd == 0 then
+				CastSpellByName("Bloodthirst")
+				CastSpellByName("Heroic Strike")
+			else
+				if Cg("Execute") then
+					CastSpellByName("Bloodthirst")		-- TODO: associate with global execute toggle
+				end
+				CastSpellByName("Heroic Strike")
+			end
+		elseif playerRage > 0.30
+		and psychoSunderAttack then
+			CastSpellByName("Bloodthirst")
+		end
 	end
+
 
 	-- Heroic strike conditions
 	if psychoSunderAttack and (playerRage > (rageGain * 0.2)) and targetHealth > 0.20 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2)) then CastSpellByName("Heroic Strike"); end
