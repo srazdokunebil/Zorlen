@@ -1149,12 +1149,12 @@ function HODLZorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww
 	local dualWield;
 	if OffhandHasWeapon() == 1 then dualWield = true; else dualWield = false; end 
 	if (rageGain < 1) then rageGain = 1; end
-	
+
 	-- Get the CDs on BT and WW, as well as rend to calculate the GCD
 	local btcd = math.floor(GetSpellCooldown(btIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local gcd = math.floor(GetSpellCooldown(rendIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local wwcd = math.floor(GetSpellCooldown(wwIndex, BOOKTYPE_SPELL) * 10) / 10;
-	
+
 	-- Make sure to reset values in case they aren't existing yet
 	if (gcd == nil) then gcd = 0; end
 	if (btcd == nil) then btcd = 0; end
@@ -1164,42 +1164,42 @@ function HODLZorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww
 	if (psychoPercent50HealthTime == nil) then psychoPercent50HealthTime = 0; end
 	if (psychoMobStartingHealth == nil) then psychoMobStartingHealth = 2; end
 	if (psychoBsCastTime == nil) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; end
-	
+
 	-- Check if BT and WW are the cause of the GCD
 	local wwgcd = gcd == wwcd;
 	local btgcd = gcd == btcd;
-	
+
 	-- Check if a Unit is considered to be a boss
 	local targetIsBoss = false;
 	if UnitLevel("target") == -1 or UnitHealthMax("target") > targetBossHealth then targetIsBoss = true; end
-	
+
 	-- Set the timing for when a mob hits 75 and 50 percent health
 	if targetHealth < 0.75 and targetHealth > 0.60 and psychoPercent75HealthTime == 0 then psychoPercent75HealthTime = currenttime; end
 	if targetHealth < 0.50 and psychoPercent50HealthTime == 0 then psychoPercent50HealthTime = currenttime; end
-	
+
 	-- Calculate a variable to determine if the mob will die too early without us having the possibility to execute
 	local holdBackGcd = Zorlen_PsychoHoldBackGcd(currenttime, psychoPercent50HealthTime, psychoPercent75HealthTime);
-		
+
 	-- Are we closing in on interfering with the GCD for BT or WW
 	local outsideRotationWindow = ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 4.3) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 8.3));
-	
+
 	-- Lets reset some variables, get our new target and attack it if we can
 	if (GetUnitName("target") == nil or UnitIsDead("target")) and psychoSunderAttack then psychoMobStartingHealth = 2; psychoPercent75HealthTime = 0; psychoPercent50HealthTime = 0; psychoSunderAttack = false; Zorlen_debug("Sunder set to: " .. tostring(psychoSunderAttack), 1); end
 	if (GetUnitName("target") == nil or UnitIsDead("target")) then TargetNearestEnemy(); targetHealth = UnitHealth("target") / UnitHealthMax("target"); psychoMobStartingHealth = UnitHealth("target") / UnitHealthMax("target"); end
 	if CheckInteractDistance("target", 1) and not isAttackActive() then castAttack() end
-	
+
 	-- If we manually swap targets, we also want the psychoMobStartingHealth to reset
 	if not (GetUnitName("target") == nil or UnitIsDead("target")) and (UnitIsUnit("target", "playertarget") == nil) then psychoMobStartingHealth = (UnitHealth("target") / UnitHealthMax("target")); end
-	
+
 	-- Calculate a variable to determine if the newly targeted mob will die soon in raid
 	local cuttingItClose = Zorlen_PsychoCuttingItClose(targetHealth, targetIsBoss, psychoInRaid, psychoMobStartingHealth);
-	
+
 	-- Lets decide if we sunder or not
 	if not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; CastSpellByName("Sunder Armor"); elseif not psychoSunderAttack and isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; elseif not psychoSunderAttack and targetHealth > 0.20 and targetHealth < sunderMobPercentage then psychoSunderAttack = true; elseif not psychoSunderAttack and not (GetUnitName("target") == nil or UnitIsDead("target")) and UnitHealthMax("target") <= sunderMobHealth then psychoSunderAttack = true; end
-	
+
 	-- Stance dance :)
 	if swapBattle and (Zorlen_isEnemyTargetingYou() and ((btcd == 0 or btgcd) or (wwcd ~=0 and not wwgcd)) and playerRage < 0.25) then castBattleStance(); elseif ((btcd ~= 0 and not btgcd) and playerRage > 0.15 and (targetHealth > 0.2)) or not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); elseif not swapBattle then castBerserkerStance(); end
-	
+
 	-- Lets bloodrage, but only if we're outside some windows or will mess up execute. Same for Battle Shout
 	if not isAttackActive() or (not cuttingItClose and not holdBackGcd and targetHealth > 0.30 and outsideRotationWindow and UnitHealth("player") / UnitHealthMax("player") > 0.5 and playerRage < 0.3) then castBloodrage(); end
 	if (not isAttackActive() and not isBattleShoutActive()) or (not cuttingItClose and not holdBackGcd and targetHealth > 0.20 and outsideRotationWindow and (not isBattleShoutActive() or ((currenttime - psychoBsCastTime) > 110)) and playerRage > 0.1 and gcd == 0) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Battle Shout"); end
@@ -1216,13 +1216,13 @@ function HODLZorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww
 	elseif playerRage > 0.30 and psychoSunderAttack then
 		CastSpellByName("Bloodthirst") ;
 	end
-	
+
 	-- Conditions for doing WW
 	local psychoShouldWhirlwind = Zorlen_PsychoShouldWhirlwind(targetHealth, targetIsBoss, psychoInRaid);
 	if psychoSunderAttack and psychoShouldWhirlwind and not holdBackGcd and isBerserkerStance() and targetHealth > 0.20 and (btcd ~=0 and not btgcd) and playerRage > ww025 and (currenttime - btcd) < 2 then CastSpellByName("Whirlwind") end
 	if psychoSunderAttack and psychoShouldWhirlwind and not holdBackGcd and isBerserkerStance() and targetHealth > 0.20 and (btcd ~=0 and not btgcd) and playerRage > ww040 and (currenttime - btcd) < 4 then CastSpellByName("Whirlwind") end
 	if psychoSunderAttack and psychoShouldWhirlwind and not holdBackGcd and isBerserkerStance() and targetHealth > 0.20 and (btcd ~=0 and not btgcd) and playerRage > ww055 and (currenttime - btcd) <= 5.3 then CastSpellByName("Whirlwind") end
-	
+
 	-- Conditions for casting heroic strike dualWield (non boss)
 	if psychoSunderAttack and not targetIsBoss and dualWield and ((psychoInRaid and (playerRage > (rageGain * 0.15))) or (playerRage > (rageGain * 0.25))) and targetHealth > 0.30 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 4)) then CastSpellByName("Heroic Strike"); end
 	if psychoSunderAttack and not targetIsBoss and dualWield and ((psychoInRaid and (playerRage > (rageGain * 0.25))) or (playerRage > (rageGain * 0.35))) and targetHealth > 0.30 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 3) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 5)) then CastSpellByName("Heroic Strike"); end
@@ -1240,7 +1240,7 @@ function HODLZorlen_PsychoSingleTargetAoE(btIndex, wwIndex, rendIndex, ww025, ww
 
 	-- Conditions for casting heroic strike 2h
 	if psychoSunderAttack and not dualWield and targetHealth > 0.20 and (playerRage > (rageGain * 0.65)) then CastSpellByName("Heroic Strike"); end
-	
+
 	-- Hamstring spam dualWield
 	local psychoShouldHamstring = Zorlen_PsychoShouldHamstring(targetHealth, targetIsBoss, psychoInRaid, dualWield);
 	if psychoSunderAttack and dualWield and targetHealth > 0.22 and psychoShouldHamstring and not holdBackGcd and ((psychoInRaid and playerRage > (rageGain * 0.5)) or playerRage > (rageGain * 0.65)) and outsideRotationWindow then CastSpellByName("Hamstring"); end
@@ -1274,12 +1274,12 @@ function HODLZorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt0
 	local targetHealth = UnitHealth("target") / UnitHealthMax("target");
 	local dualWield;
 	if OffhandHasWeapon() == 1 then dualWield = true; else dualWield = false; end 
-	
+
 	-- Get the CDs on BT and WW, as well as rend to calculate the GCD
 	local btcd = math.floor(GetSpellCooldown(btIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local gcd = math.floor(GetSpellCooldown(rendIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local wwcd = math.floor(GetSpellCooldown(wwIndex, BOOKTYPE_SPELL) * 10) / 10;
-	
+
 	-- Make sure to reset values in case they aren't existing yet
 	if (gcd == nil) then gcd = 0; end
 	if (btcd == nil) then btcd = 0; end
@@ -1289,28 +1289,28 @@ function HODLZorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt0
 	if (psychoPercent50HealthTime == nil) then psychoPercent50HealthTime = 0; end
 	if (psychoMobStartingHealth == nil) then psychoMobStartingHealth = 2; end
 	if (psychoBsCastTime == nil) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; end
-	
+
 	-- Check if BT and WW are the cause of the GCD
 	local wwgcd = gcd == wwcd;
 	local btgcd = gcd == btcd;
-	
+
 	-- Check if a Unit is considered to be a boss
 	local targetIsBoss = false;
 	if UnitLevel("target") == -1 or UnitHealthMax("target") > targetBossHealth then 
 		targetIsBoss = true; 
 	end
-	
+
 	-- Set the timing for when a mob hits 75 and 50 percent health
 	if targetHealth < 0.75 and targetHealth > 0.60 and psychoPercent75HealthTime == 0 then psychoPercent75HealthTime = currenttime; end
 	if targetHealth < 0.50 and psychoPercent50HealthTime == 0 then psychoPercent50HealthTime = currenttime; end
-	
+
 	-- Calculate a variable to determine if the mob will die too early without us having the possibility to execute
 	local holdBackGcd = Zorlen_PsychoHoldBackGcd(currenttime, psychoPercent50HealthTime, psychoPercent75HealthTime);
-		
+
 	-- Are we closing in on interfering with the GCD for BT or WW
 	local outsideRotationWindow = ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 4.3) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 8.3));
 	local outsideWWRotationWindow = (not wwgcd and (wwcd ~=0) and (currenttime - wwcd) <= 8.3);
-	
+
 	-- Lets reset some variables, get our new target and attack it if we can
 	if (GetUnitName("target") == nil or UnitIsDead("target")) and psychoSunderAttack then psychoMobStartingHealth = 2; psychoPercent75HealthTime = 0; psychoPercent50HealthTime = 0; psychoSunderAttack = false; Zorlen_debug("Sunder set to: " .. tostring(psychoSunderAttack), 1); end
 	if (GetUnitName("target") == nil or UnitIsDead("target")) then TargetNearestEnemy(); targetHealth = UnitHealth("target") / UnitHealthMax("target"); psychoMobStartingHealth = UnitHealth("target") / UnitHealthMax("target"); end
@@ -1320,10 +1320,10 @@ function HODLZorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt0
 	if not (GetUnitName("target") == nil or UnitIsDead("target")) and (UnitIsUnit("target", "playertarget") == nil) then 
 		psychoMobStartingHealth = (UnitHealth("target") / UnitHealthMax("target")); 
 	end
-	
+
 	-- Calculate a variable to determine if the newly targeted mob will die soon in raid
 	local cuttingItClose = Zorlen_PsychoCuttingItClose(targetHealth, targetIsBoss, psychoInRaid, psychoMobStartingHealth);
-	
+
 	-- Lets decide if we sunder or not
 	if dualWield and not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then 
 		psychoSunderAttack = true; 
@@ -1356,7 +1356,7 @@ function HODLZorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt0
 	elseif prioWW and isBerserkerStance() and psychoSunderAttack and playerRage < 0.30 and wwcd == 0 then
 		return;
 	end
-	
+
 	-- Conditions for doing BT and execute (multiple enemies or boss)
 	if (targetHealth < 0.20) then 
 		if prioWW and wwcd == 0 then
@@ -1372,20 +1372,20 @@ function HODLZorlen_PsychoMultiTargetAoe(btIndex, wwIndex, rendIndex, bt040, bt0
 				CastSpellByName("Heroic Strike"); 
 			end 
 			]]--
-		end 
-	end	
-	
+		end
+	end
+
 	if not prioWW and isBerserkerStance() and psychoSunderAttack then 
-		CastSpellByName("Whirlwind"); 
-	end	
-	
+		CastSpellByName("Whirlwind");
+	end
+
 	if psychoSunderAttack and ((not targetIsBoss and targetHealth > 0.20 and targetHealth < 0.30 and playerRage < 0.7) or (not targetIsBoss and targetHealth > 0.30) or (targetIsBoss and targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) < 7 and playerRage > bt040 then 
 		CastSpellByName("Bloodthirst");
 	end
 	if psychoSunderAttack and ((not targetIsBoss and targetHealth > 0.20 and targetHealth < 0.30 and playerRage < 0.7) or (not targetIsBoss and targetHealth > 0.30) or (targetIsBoss and targetHealth > 0.20) or prioCleave) and (wwcd ~= 0 and not wwgcd) and (currenttime - wwcd) <= 9.2 and playerRage > bt055 then 
 		CastSpellByName("Bloodthirst");
-	end	
-	
+	end
+
 	-- Conditions for Cleave (non-boss)
 	if psychoSunderAttack and not targetIsBoss and ((targetHealth > 0.30) or prioCleave) and ((prioCleave and psychoInRaid and (playerRage > (rageGain * 0.2))) or (psychoInRaid and (playerRage > (rageGain * 0.25))) or (playerRage > (rageGain * 0.4))) and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 4)) then CastSpellByName("Cleave"); end
 	if psychoSunderAttack and not targetIsBoss and ((targetHealth > 0.30) or prioCleave) and ((prioCleave and psychoInRaid and (playerRage > (rageGain * 0.27))) or (psychoInRaid and (playerRage > (rageGain * 0.3))) or (playerRage > (rageGain * 0.45))) and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2) and (not wwgcd and (wwcd ~=0) and currenttime - wwcd <= 9)) then CastSpellByName("Cleave"); end
@@ -1428,11 +1428,11 @@ function HODLZorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, target
 	local targetHealth = UnitHealth("target") / UnitHealthMax("target");
 	local dualWield;
 	if OffhandHasWeapon() == 1 then dualWield = true; else dualWield = false; end 
-	
+
 	-- Get the CDs on BT, as well as rend to calculate the GCD
 	local btcd = math.floor(GetSpellCooldown(btIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local gcd = math.floor(GetSpellCooldown(rendIndex, BOOKTYPE_SPELL) * 10) / 10;
-	
+
 	-- Make sure to reset values in case they aren't existing yet
 	if (gcd == nil) then gcd = 0; end
 	if (btcd == nil) then btcd = 0; end
@@ -1441,25 +1441,25 @@ function HODLZorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, target
 	if (psychoPercent50HealthTime == nil) then psychoPercent50HealthTime = 0; end
 	if (psychoMobStartingHealth == nil) then psychoMobStartingHealth = 2; end
 	if (psychoBsCastTime == nil) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; end
-	
+
 	-- Check if BT and WW are the cause of the GCD
 	local wwgcd = gcd == wwcd;
 	local btgcd = gcd == btcd;
-	
+
 	-- Check if a Unit is considered to be a boss
 	local targetIsBoss = false;
 	if UnitLevel("target") == -1 or UnitHealthMax("target") > targetBossHealth then targetIsBoss = true; end	
-	
+
 	-- Set the timing for when a mob hits 75 and 50 percent health
 	if targetHealth < 0.75 and targetHealth > 0.60 and psychoPercent75HealthTime == 0 then psychoPercent75HealthTime = currenttime; end
 	if targetHealth < 0.50 and psychoPercent50HealthTime == 0 then psychoPercent50HealthTime = currenttime; end
-	
+
 	-- Calculate a variable to determine if the mob will die too early without us having the possibility to execute
 	local holdBackGcd = Zorlen_PsychoHoldBackGcd(currenttime, psychoPercent50HealthTime, psychoPercent75HealthTime);
-		
+
 	-- Are we closing in on interfering with the GCD for BT or WW
 	local outsideRotationWindow = (not btgcd and (btcd ~=0) and (currenttime - btcd) <= 4.3);
-	
+
 	-- Lets reset some variables, get our new target and attack it if we can
 	if (GetUnitName("target") == nil or UnitIsDead("target")) and psychoSunderAttack then psychoMobStartingHealth = 2; psychoPercent75HealthTime = 0; psychoPercent50HealthTime = 0; psychoSunderAttack = false; Zorlen_debug("Sunder set to: " .. tostring(psychoSunderAttack), 1); end
 	if (GetUnitName("target") == nil or UnitIsDead("target")) then TargetNearestEnemy(); targetHealth = UnitHealth("target") / UnitHealthMax("target"); psychoMobStartingHealth = UnitHealth("target") / UnitHealthMax("target"); end
@@ -1467,15 +1467,15 @@ function HODLZorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, target
 
 	-- If we manually swap targets, we also want the psychoMobStartingHealth to reset
 	if not (GetUnitName("target") == nil or UnitIsDead("target")) and (UnitIsUnit("target", "playertarget") == nil) then psychoMobStartingHealth = (UnitHealth("target") / UnitHealthMax("target")); end
-	
+
 	-- Calculate a variable to determine if the newly targeted mob will die soon in raid
 	local cuttingItClose = Zorlen_PsychoCuttingItClose(targetHealth, targetIsBoss, psychoInRaid, psychoMobStartingHealth);
-	
+
 	-- Lets decide if we sunder or not
 	if not psychoSunderAttack and UnitHealthMax("target") > sunderMobHealth and playerRage > 0.15 and not isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; CastSpellByName("Sunder Armor"); elseif not psychoSunderAttack and isSunderFull("target") and targetHealth > 0.20 then psychoSunderAttack = true; elseif not psychoSunderAttack and targetHealth > 0.20 and targetHealth < sunderMobPercentage then psychoSunderAttack = true; elseif not psychoSunderAttack and not (GetUnitName("target") == nil or UnitIsDead("target")) and UnitHealthMax("target") <= sunderMobHealth then psychoSunderAttack = true; end
 
 	if swapBattle and (Zorlen_isEnemyTargetingYou()and playerRage < 0.25) then castBattleStance(); elseif not Zorlen_isEnemyTargetingYou() then castBerserkerStance(); elseif not swapBattle then castBerserkerStance(); end
-	
+
 	-- Lets bloodrage, but only if we're outside some windows or will mess up execute. Same for Battle Shout
 	if not isAttackActive() or (not cuttingItClose and not holdBackGcd and targetHealth > 0.30 and outsideRotationWindow and UnitHealth("player") / UnitHealthMax("player") > 0.5 and playerRage < 0.3) then castBloodrage(); end
 	if (not isAttackActive() and not isBattleShoutActive()) or (not cuttingItClose and not holdBackGcd and targetHealth > 0.20 and outsideRotationWindow and (not isBattleShoutActive() or ((currenttime - psychoBsCastTime) > 110)) and playerRage > 0.1 and gcd == 0) then psychoBsCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Battle Shout"); end
@@ -1488,14 +1488,14 @@ function HODLZorlen_PsychoSingleTargetNoAoe(btIndex, rendIndex, rageGain, target
 	if psychoSunderAttack and dualWield and (playerRage > (rageGain * 0.3)) and targetHealth > 0.20 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 4)) then CastSpellByName("Heroic Strike"); end
 	if psychoSunderAttack and dualWield and (playerRage > (rageGain * 0.35)) and targetHealth > 0.20 and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 5)) then CastSpellByName("Heroic Strike"); end
 	if psychoSunderAttack and dualWield and (playerRage > (rageGain * 0.4)) and targetHealth > 0.20 then CastSpellByName("Heroic Strike"); end
-	
+
 	-- Conditions for casting heroic strike 2h
 	if psychoSunderAttack and not dualWield and targetHealth > 0.20 and (playerRage > (rageGain * 0.45)) then CastSpellByName("Heroic Strike"); end
 
 	-- Hamstring spam dualWield	
 	local psychoShouldHamstring = Zorlen_PsychoShouldHamstring(targetHealth, targetIsBoss, psychoInRaid, dualWield);
 	if psychoSunderAttack and dualWield and targetHealth > 0.22 and psychoShouldHamstring and not holdBackGcd and (playerRage > (rageGain * 0.45)) and outsideRotationWindow then CastSpellByName("Hamstring"); end
-	
+
 	-- Hamstring spam 2h
 	if psychoSunderAttack and outsideRotationWindow and not dualWield and targetHealth > 0.22 and psychoShouldHamstring and not holdBackGcd and (playerRage > (rageGain * 0.10)) and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 2)) then CastSpellByName("Hamstring"); end
 	if psychoSunderAttack and outsideRotationWindow and not dualWield and targetHealth > 0.22 and psychoShouldHamstring and not holdBackGcd and (playerRage > (rageGain * 0.17)) and ((not btgcd and (btcd ~=0) and (currenttime - btcd) <= 3)) then CastSpellByName("Hamstring"); end
@@ -1509,15 +1509,15 @@ end
 function Zorlen_PsychoHoldBackGcd(currenttime, psychoPercent50HealthTime, psychoPercent75HealthTime)
 	local holdBackGcd = false;	
 	local percentageDiffTime = psychoPercent50HealthTime - psychoPercent75HealthTime;
-	
+
 	if percentageDiffTime < 1.2 and percentageDiffTime > 0 and psychoInRaid then holdBackGcd = true; end
-	
+
 	return holdBackGcd;
 end
 
 function Zorlen_PsychoCuttingItClose(targetHealth, targetIsBoss, psychoInRaid, psychoMobStartingHealth)
 	local cuttingItClose = false;
-	
+
 	if tostring(targetHealth) == '-1.#IND' then return cuttingItClose; end
 
 	if UnitHealthMax("target") > 200000 and targetHealth < 0.23 then cuttingItClose = true; end
@@ -1527,28 +1527,28 @@ function Zorlen_PsychoCuttingItClose(targetHealth, targetIsBoss, psychoInRaid, p
 	if UnitHealthMax("target") > 20000 and UnitHealthMax("target") < 35000 and targetHealth < 0.35 then cuttingItClose = true; end
 	if UnitHealthMax("target") > 10000 and UnitHealthMax("target") < 20000 and targetHealth < 0.40 then cuttingItClose = true; end
 	if UnitHealthMax("target") < 10000 then cuttingItClose = true; end
-	
+
 	return cuttingItClose;
 end
 
 function Zorlen_PsychoShouldHamstring(targetHealth, targetIsBoss, psychoInRaid, dualWield)
 	local psychoShouldHamstring = false;
-	
+
 	if targetIsBoss then return true; end
 	if dualWield and ((not psychoInRaid) or (psychoInRaid == nil)) then return false; end
-	
+
 	if UnitHealthMax("target") > 200000 and ((dualWield and targetHealth > 0.25) or (not dualWield and targetHealth > 0.30)) then psychoShouldHamstring = true; end
 	if UnitHealthMax("target") > 100000 and UnitHealthMax("target") < 200000 and ((dualWield and targetHealth > 0.30) or (not dualWield and targetHealth > 0.35)) then psychoShouldHamstring = true; end
 	if UnitHealthMax("target") > 50000 and UnitHealthMax("target") < 100000 and ((dualWield and targetHealth > 0.35) or (not dualWield and targetHealth > 0.40)) then psychoShouldHamstring = true; end
-	
+
 	return psychoShouldHamstring;
 end
 
 function Zorlen_PsychoShouldWhirlwind(targetHealth, targetIsBoss, psychoInRaid)
 	local psychoShouldWhirlwind = false;
-		
-	if ((not psychoInRaid) or (psychoInRaid == nil)) then return true; end
 	
+	if ((not psychoInRaid) or (psychoInRaid == nil)) then return true; end
+
 	if targetIsBoss then psychoShouldWhirlwind = true; end
 	if UnitHealthMax("target") > 200000 and targetHealth > 0.23 then psychoShouldWhirlwind = true; end
 	if UnitHealthMax("target") > 100000 and UnitHealthMax("target") < 200000 and targetHealth > 0.25 then psychoShouldWhirlwind = true; end
@@ -1557,7 +1557,7 @@ function Zorlen_PsychoShouldWhirlwind(targetHealth, targetIsBoss, psychoInRaid)
 	if UnitHealthMax("target") > 20000 and UnitHealthMax("target") < 35000 and targetHealth > 0.32 then psychoShouldWhirlwind = true; end
 	if UnitHealthMax("target") > 10000 and UnitHealthMax("target") < 20000 and targetHealth > 0.35 then psychoShouldWhirlwind = true; end
 	if UnitHealthMax("target") < 10000 and targetHealth > 0.40 then psychoShouldWhirlwind = true; end
-	
+
 	return psychoShouldWhirlwind;
 end
 
@@ -1623,51 +1623,51 @@ function Psycho_FourHorseManTank(rendIndex, disarmIndex)
 	local atpEffective = atpBase + atpPosBuff + atpNegBuff;
 	local playerRage = UnitMana("player") / UnitManaMax("player");
 	local currenttime = math.floor(GetTime() * 10) / 10;	
-	
+
 	-- Get the CDs on BT and WW, as well as rend to calculate the GCD
 	local gcd = math.floor(GetSpellCooldown(rendIndex, BOOKTYPE_SPELL) * 10) / 10;
 	local disarmcd = math.floor(GetSpellCooldown(disarmIndex, BOOKTYPE_SPELL) * 10) / 10;
-	
+
 	-- Make sure to reset values in case they aren't existing yet
 	if (gcd == nil) then gcd = 0; end
-	
+
 	if (psychoDemoShoutCastTime == nil) then psychoDemoShoutCastTime = 0; end	
 	if (psychoThunderClapCastTime == nil) then psychoThunderClapCastTime = 0; end	
 	if (psychoSunderCastTime == nil) then psychoSunderCastTime = 0; end
 	if (psychoDisarmCastTime == nil) then psychoDisarmCastTime = 0; end
-	
+
 	local needsDemoShout = false;
 	if not isDemoralized("target") or ((currenttime - psychoDemoShoutCastTime) > 25) then needsDemoShout = true; end
-	
+
 	local needsThunderClap = false;
 	if not isThunderClap("target") or ((currenttime - psychoThunderClapCastTime) > 25) then needsThunderClap = true; end
-	
+
 	local needsDisarm = false;
 	if disarmcd == 0 or ((currenttime - psychoDisarmCastTime) > 55) then Zorlen_debug("NEEDS DISARM", 1); needsDisarm = true; end
-	
+
 	local needsSunderArmor = false;
 	if (not isSunderFull("target")) or ((currenttime - psychoSunderCastTime) > 25) then needsSunderArmor = true; end
-	
+
 	if CheckInteractDistance("target", 1) and not isAttackActive() then castAttack() end
-	
+
 	-- Cast Disarm
 	if gcd == 0 and needsDisarm and playerRage > 0.2 then psychoDisarmCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Disarm"); end
 
 	-- Cast DemoShout
 	local holdThunder = false;
 	if gcd == 0 and not holdThunder and not needsDisarm and needsDemoShout and playerRage > 0.1 then holdThunder = true; psychoDemoShoutCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Demoralizing Shout"); end
-	
+
 	-- Cast ThunderClap
 	if gcd == 0 and not holdThunder and not needsDisarm and not needsDemoShout and needsThunderClap and playerRage > 0.2 then psychoThunderClapCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Thunder Clap"); end
-	
+
 	-- Cast Sunder Armor
 	if gcd == 0 and playerRage > 0.15 and not needsDisarm and not needsDemoShout and not needsThunderClap and needsSunderArmor then psychoSunderCastTime = math.floor(GetTime() * 10) / 10; CastSpellByName("Sunder Armor"); end
-	
+
 	if not needsDisarm and not needsDemoShout and not needsThunderClap and not needsSunderArmor then
 		CastSpellByName("Revenge");
 		CastSpellByName("Shield Bash");
 		CastSpellByName("Shield Block");
 	end
-	
+
 	if playerRage > 0.6 then CastSpellByName("Heroic Strike"); end
 end

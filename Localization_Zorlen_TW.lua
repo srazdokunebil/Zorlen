@@ -505,7 +505,7 @@ if GetLocale() ~= "zhTW" then return end
 
 
 -- Zorlen_Paladin.lua file Localization
-	LOCALIZATION_ZORLEN["BlessingOfFreedom"] = "自由祝福"
+	LOCALIZATION_ZORLEN["HandOfFreedom"] = "自由祝福"
 	LOCALIZATION_ZORLEN["BlessingOfKings"] = "王者祝福"
 	LOCALIZATION_ZORLEN["BlessingOfLight"] = "光明祝福"
 	LOCALIZATION_ZORLEN["BlessingOfMight"] = "力量祝福"

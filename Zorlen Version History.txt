@@ -87,7 +87,7 @@ isFiRAA() shortcut function for: isFireResistanceAuraActive()
 isBoMA() shortcut function for: isBlessingOfMightActive()
 isBoPA() shortcut function for: isBlessingOfProtectionActive()
 isBoWA() shortcut function for: isBlessingOfWisdomActive()
-isBoFA() shortcut function for: isBlessingOfFreedomActive()
+isBoFA() shortcut function for: isHandOfFreedomActive()
 isBoSalA() shortcut function for: isBlessingOfSalvationActive()
 isBoSacA() shortcut function for: isBlessingOfSacrificeActive()
 isBoSanA() shortcut function for: isBlessingOfSanctuaryActive()
@@ -167,7 +167,7 @@ isShadowResistanceAuraActive()
 isSanctityAuraActive()
 isPaladinResistanceAuraActive()
 isPaladinAuraActive()
-isBlessingOfFreedomActive()
+isHandOfFreedomActive()
 isBlessingOfKingsActive()
 isBlessingOfLightActive()
 isBlessingOfMightActive()
@@ -367,8 +367,8 @@ Fixed: castCasterForm()
 Version 4.14.01
 
 Added to Warlock section:
-Fix to spell damage scanner to detect “Spell Damage +#” and “Shadow Damage +#”.
-It was scanning for “+# Spell Damage” and “+# Shadow Damage”.
+Fix to spell damage scanner to detect ï¿½Spell Damage +#ï¿½ and ï¿½Shadow Damage +#ï¿½.
+It was scanning for ï¿½+# Spell Damageï¿½ and ï¿½+# Shadow Damageï¿½.
 
 
 -----------------------------------
@@ -384,7 +384,7 @@ Version 4.13
 
 Added to Hunter section:
 Updated castSting() to work for bosses
-Added a new “z Shot Rotation” macro with “/zorlen make macros”
+Added a new ï¿½z Shot Rotationï¿½ macro with ï¿½/zorlen make macrosï¿½
 
 Added to Warlock section:
 Fixed a few casting bugs with Zorlen_WarlockDotSpam()
@@ -405,7 +405,7 @@ Zorlen_isMoving()
 
 Added to Hunter section:
 isAutoShotActive()
-Also set the shot rotation window to start from the “SPELLCAST_STOP” event.
+Also set the shot rotation window to start from the ï¿½SPELLCAST_STOPï¿½ event.
 
 Added to Other section:
 isAttackActive()

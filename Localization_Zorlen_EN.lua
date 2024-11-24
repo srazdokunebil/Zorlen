@@ -506,12 +506,14 @@ LOCALIZATION_ZORLEN = {}
 
 
 -- Zorlen_Paladin.lua file Localization
-	LOCALIZATION_ZORLEN["BlessingOfFreedom"] = "Blessing of Freedom"
+	LOCALIZATION_ZORLEN["HandOfFreedom"] = "Hand of Freedom"
 	LOCALIZATION_ZORLEN["BlessingOfKings"] = "Blessing of Kings"
 	LOCALIZATION_ZORLEN["BlessingOfLight"] = "Blessing of Light"
 	LOCALIZATION_ZORLEN["BlessingOfMight"] = "Blessing of Might"
 	LOCALIZATION_ZORLEN["BlessingOfProtection"] = "Blessing of Protection"
+	LOCALIZATION_ZORLEN["HandOfProtection"] = "Hand of Protection"
 	LOCALIZATION_ZORLEN["BlessingOfSacrifice"] = "Blessing of Sacrifice"
+	LOCALIZATION_ZORLEN["HandOfSacrifice"] = "Hand of Sacrifice"
 	LOCALIZATION_ZORLEN["BlessingOfSalvation"] = "Blessing of Salvation"
 	LOCALIZATION_ZORLEN["BlessingOfSanctuary"] = "Blessing of Sanctuary"
 	LOCALIZATION_ZORLEN["BlessingOfWisdom"] = "Blessing of Wisdom"

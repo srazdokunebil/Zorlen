@@ -37,7 +37,7 @@ Zorlen_Paladin_FileBuildNumber = 688
 		isBoMA() shortcut function for: isBlessingOfMightActive() added by charroux
 		isBoPA() shortcut function for: isBlessingOfProtectionActive() added by charroux
 		isBoWA() shortcut function for: isBlessingOfWisdomActive() added by charroux
-		isBoFA() shortcut function for: isBlessingOfFreedomActive() added by charroux
+		isBoFA() shortcut function for: isHandOfFreedomActive() added by charroux
 		isBoSalA() shortcut function for: isBlessingOfSalvationActive() added by charroux
 		isBoSacA() shortcut function for: isBlessingOfSacrificeActive() added by charroux
 		isBoSanA() shortcut function for: isBlessingOfSanctuaryActive() added by charroux
@@ -66,7 +66,7 @@ Zorlen_Paladin_FileBuildNumber = 688
 		isSanctityAuraActive() added by Nosrac
 		isPaladinResistanceAuraActive() added by Nosrac
 		isPaladinAuraActive() added by Nosrac
-		isBlessingOfFreedomActive() added by Nosrac
+		isHandOfFreedomActive() added by Nosrac
 		isBlessingOfKingsActive() added by Nosrac
 		isBlessingOfLightActive() added by Nosrac
 		isBlessingOfMightActive() added by Nosrac
@@ -178,11 +178,11 @@ function isPaladinAuraActive()
 end
 
 --Added by Nosrac
-function isBlessingOfFreedomActive()
-	local SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+function isHandOfFreedomActive()
+	local SpellName = LOCALIZATION_ZORLEN.HandOfFreedom
 	return Zorlen_checkBuffByName(SpellName)
 end
-isBoFA = isBlessingOfFreedomActive
+isBoFA = isHandOfFreedomActive
 
 --Added by Nosrac
 function isBlessingOfKingsActive()
@@ -210,6 +210,20 @@ function isBlessingOfProtectionActive()
 	return Zorlen_checkBuffByName(SpellName)
 end
 isBoPA = isBlessingOfProtectionActive
+
+--Added by Dispatch
+function isHandOfProtectionActive()
+	local SpellName = LOCALIZATION_ZORLEN.HandOfProtection
+	return Zorlen_checkBuffByName(SpellName)
+end
+isBoPA = isHandOfProtectionActive
+
+-- Added by Dispatch
+function isHandOfProtectionActive()
+	local SpellName = LOCALIZATION_ZORLEN.HandOfProtection
+	return Zorlen_checkBuffByName(SpellName)
+end
+isBoPA = isHandOfProtectionActive
 
 --Added by Nosrac
 function isBlessingOfSacrificeActive()
@@ -241,7 +255,7 @@ isBoWA = isBlessingOfWisdomActive
 
 --Added by Nosrac
 function isRegularBlessingActive()
-	if isBlessingOfFreedomActive() or isBlessingOfKingsActive() or isBlessingOfLightActive() or isBlessingOfMightActive() or isBlessingOfProtection() or isBlessingOfSacrificeActive() or isBlessingOfSalvationActive() or isBlessingOfSanctuaryActive() or isBlessingOfWisdomActive() then
+	if isHandOfFreedomActive() or isBlessingOfKingsActive() or isBlessingOfLightActive() or isBlessingOfMightActive() or isBlessingOfProtection() or isBlessingOfSacrificeActive() or isBlessingOfSalvationActive() or isBlessingOfSanctuaryActive() or isBlessingOfWisdomActive() then
 		return true
 	end
 	return false
@@ -426,7 +440,7 @@ end
 
 --Added by Dispatch
 function isBoFReady()
-	if vr.api.IsSpellReady("Blessing of Freedom") then
+	if vr.api.IsSpellReady("Hand of Freedom") then
 		return true;
 	end
 	return false;
@@ -515,10 +529,10 @@ end
 --end
 
 --Added by Dispatch
--- function castBlessingOfFreedom(test)
+-- function castHandOfFreedom(test)
 -- 	local z = {}
 -- 	z.Test = test
--- 	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+-- 	z.SpellName = LOCALIZATION_ZORLEN.HandOfFreedom
 -- 	z.BuffName = z.SpellName
 -- 	z.DoBuff = 1
 -- 	z.EnemyTargetNotNeeded = 1
@@ -527,15 +541,15 @@ end
 -- end
 
 -- Will only cast the spell on your self if you do not have it on you and will not be able to cast on anything else.
-	function selfcastBlessingOfFreedom(force)
-		local SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+	function selfcastHandOfFreedom(force)
+		local SpellName = LOCALIZATION_ZORLEN.HandOfFreedom
 		local SpellButton = Zorlen_Button[SpellName]
 		local friend = nil;
 		if SpellButton then
 			local isUsable, notEnoughMana = IsUsableAction(SpellButton)
 			local _, duration, _ = GetActionCooldown(SpellButton)
 			local isCurrent = IsCurrentAction(SpellButton)
-			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isBlessingOfFreedomActive() or force) then
+			if ( isUsable == 1 ) and ( not notEnoughMana ) and ( duration == 0 ) and not ( isCurrent == 1 ) and (not isHandOfFreedomActive() or force) then
 				if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
 					friend = 1;
 					TargetUnit("player");
@@ -558,7 +572,7 @@ end
 			Zorlen_debug(""..SpellName.." was not found on any of the action bars!")
 			local SpellID = Zorlen_GetSpellID(SpellName);
 			if Zorlen_checkCooldown(SpellID) then
-				if (not isBlessingOfFreedomActive()) then
+				if (not isHandOfFreedomActive()) then
 					if (UnitIsFriend("player", "target") and not UnitIsUnit("player","target")) then
 						friend = 1;
 						TargetUnit("player");
@@ -609,17 +623,30 @@ end
 castBOP = castBlessingOfProtection
 
 --Added by Dispatch
-function castBlessingOfFreedom(test)
+function castHandOfProtection(test)
 	local z = {}
 	z.Test = test
-	z.SpellName = LOCALIZATION_ZORLEN.BlessingOfFreedom
+	z.SpellName = LOCALIZATION_ZORLEN.HandOfProtection
 	z.BuffName = z.SpellName
 	z.DoBuff = 1
 	z.EnemyTargetNotNeeded = 1
 	z.SelfCast = 1
 	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
 end
-castBOF = castBlessingOfFreedom
+castBOP = castHandOfProtection
+
+--Added by Dispatch
+function castHandOfFreedom(test)
+	local z = {}
+	z.Test = test
+	z.SpellName = LOCALIZATION_ZORLEN.HandOfFreedom
+	z.BuffName = z.SpellName
+	z.DoBuff = 1
+	z.EnemyTargetNotNeeded = 1
+	z.SelfCast = 1
+	return Zorlen_CastCommonRegisteredSpellSelfCast(z)
+end
+castBOF = castHandOfFreedom
 
 --Added by Dispatch
 function castBlessingOfSanctuary(test)

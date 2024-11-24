@@ -505,7 +505,7 @@ if GetLocale() ~= "ruRU" then return end
 
 
 -- Zorlen_Paladin.lua file Localization
-	--LOCALIZATION_ZORLEN["BlessingOfFreedom"] = ""
+	--LOCALIZATION_ZORLEN["HandOfFreedom"] = ""
 	--LOCALIZATION_ZORLEN["BlessingOfKings"] = ""
 	--LOCALIZATION_ZORLEN["BlessingOfLight"] = ""
 	--LOCALIZATION_ZORLEN["BlessingOfMight"] = ""
